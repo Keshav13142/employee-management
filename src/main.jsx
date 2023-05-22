@@ -3,20 +3,27 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./index.css";
 import Admin from "./pages/Admin";
 import Employee from "./pages/Employee";
-import Home from "./pages/Home.jsx";
+import Home from "./pages/Home";
+import Root from "./pages/root";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
-  },
-  {
-    path: "admin",
-    element: <Admin />,
-  },
-  {
-    path: "employee",
-    element: <Employee />,
+    element: <Root />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "admin",
+        element: <Admin />,
+      },
+      {
+        path: "employee",
+        element: <Employee />,
+      },
+    ],
   },
 ]);
 
