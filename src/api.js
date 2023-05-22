@@ -18,3 +18,8 @@ export const getAllRoles = async () => {
   const { data } = await client.get("/role");
   return data;
 };
+
+export const createEmp = async (empData) => {
+  const { data } = await client.post("/employees", empData);
+  return data;
+};

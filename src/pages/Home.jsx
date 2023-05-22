@@ -28,8 +28,8 @@ function Home() {
   };
 
   return (
-    <main className="min-h-screen flex items-center pt-10 flex-col">
-      <div className="min-w-[20%]  items-center flex flex-col">
+    <main className="flex min-h-screen flex-col items-center pt-10">
+      <div className="flex  min-w-[20%] flex-col items-center">
         <Toggle
           defaultValue="1"
           onValueChange={(v) => {
@@ -40,7 +40,7 @@ function Home() {
           <ToggleItem value="1" text="Admin" icon={ShieldCheckIcon} />
           <ToggleItem value="2" text="Employee" icon={UserIcon} />
         </Toggle>
-        <form className="flex flex-col gap-4 mt-5" onSubmit={login}>
+        <form className="mt-5 flex flex-col gap-4" onSubmit={login}>
           <TextInput
             name="emailId"
             onChange={onChange}
