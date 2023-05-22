@@ -24,7 +24,13 @@ function Home() {
   const login = (e) => {
     e.preventDefault();
     console.log(inputs, isAdmin);
-    isAdmin ? navigate("admin") : navigate("employee");
+    if (isAdmin) {
+      inputs.emailId.trim() === "admin@gmail.com" &&
+        inputs.password.trim() === "admin" &&
+        navigate("admin");
+    } else {
+      navigate("employee");
+    }
   };
 
   return (
