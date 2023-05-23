@@ -2,12 +2,17 @@
   "$schema": "https://json.schemastore.org/eslintrc",
   "root": true,
   "extends": ["prettier", "plugin:tailwindcss/recommended"],
-  "plugins": ["tailwindcss", "react-refresh"],
-  "parser": "babel-eslint",
+  "plugins": ["tailwindcss"],
   "rules": {
     "react/jsx-key": "off",
     "tailwindcss/no-custom-classname": "off",
-    "tailwindcss/classnames-order": "error",
-    "react-refresh/only-export-components": "warn"
+    "tailwindcss/classnames-order": "error"
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+
+  "env": {
+    "es6": true
   }
 }
