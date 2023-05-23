@@ -2,6 +2,7 @@ package com.cognizant.EMS.controller;
 
 import java.util.List;
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,32 @@ import com.cognizant.EMS.service.AdminService;
 import com.cognizant.EMS.service.EmployeeService;
 
 import lombok.extern.slf4j.Slf4j;
+
+class LoginForm {
+  private String emailId;
+  private String password;
+
+  public String getEmailId() {
+    return emailId;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setEmailId(String email) {
+    this.emailId = email;
+  }
+
+  public void setPassword(String pass) {
+    this.password = pass;
+  }
+
+  @Override
+  public String toString() {
+    return "Email :" + emailId + "\n" + "Password:" + password;
+  }
+}
 
 @RestController
 @CrossOrigin("*")
@@ -93,8 +120,17 @@ public class EmployeeController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<Boolean> login(@RequestParam String emailId, @RequestParam String password) {
-    return ResponseEntity.ok(employeeService.login(emailId,password));
+  public ResponseEntity<Boolean> login(@RequestBody LoginForm login) {
+    if (login.getEmailId() == null || login.getPassword() == null) {
+      return ResponseEntity.status(418).body(false);
+    }
+
+    boolean success = employeeService.login(login.getEmailId(), login.getPassword());
+    if (success) {
+      return ResponseEntity.ok(true);
+    }
+
+    return ResponseEntity.status(418).body(false);
   }
 
 }

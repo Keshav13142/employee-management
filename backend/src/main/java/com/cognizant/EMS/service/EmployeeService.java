@@ -28,10 +28,11 @@ public class EmployeeService {
     return employeeRepository.save(employee);
   }
 
-  public boolean login (String email, String password){
+  public boolean login(String email, String password) {
     Employee employee = employeeRepository.findByEmailId(email);
-    BCrypt.Result  result=  BCrypt.verifyer().verify(password.toCharArray(), employee.getPassword());
-    return result.verified;
+
+    return employee != null &&
+        BCrypt.verifyer().verify(password.toCharArray(), employee.getPassword()).verified;
   }
 
   public Employee getEmployee(Long id) {
