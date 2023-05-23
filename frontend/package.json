@@ -24,7 +24,8 @@
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.11.2",
     "react-spinners": "^0.13.8",
-    "sort-by": "^1.2.0"
+    "sort-by": "^1.2.0",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
