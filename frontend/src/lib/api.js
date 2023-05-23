@@ -23,3 +23,8 @@ export const createEmp = async (empData) => {
   const { data } = await client.post("/employees", empData);
   return data;
 };
+
+export const empLogin = async (empData) => {
+  const { data } = await client.post("/employees/login", empData);
+  return data;
+};

@@ -49,6 +49,11 @@ export const newEmployeeSchema = z.object({
   password: z.string().min(6, { message: "Min 6 characters" }),
 });
 
+export const loginSchema = z.object({
+  emailId: z.string().email({ message: "Invalid email" }),
+  password: z.string().min(1, { message: "Enter a password" }),
+});
+
 export const parseZodErrors = (zodError) => {
   const errors = {};
 
