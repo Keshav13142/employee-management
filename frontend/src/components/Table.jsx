@@ -13,6 +13,7 @@ import {
   Text,
   Title,
 } from "@tremor/react";
+import AddEmp from "./AddEmp";
 
 const EmpTable = () => {
   const { data, isLoading } = useQuery(["allEmployees"], getAllEmployees);
@@ -20,9 +21,12 @@ const EmpTable = () => {
   if (isLoading) return null;
 
   return (
-    <Card>
-      <Title className="text-2xl">Employee list</Title>
-      <Table className="mt-5">
+    <div className="max-h-fit">
+      <div className="flex items-center justify-between">
+        <Title className="text-2xl">Employee list</Title>
+        <AddEmp />
+      </div>
+      <Table className="mt-5 rounded-md border-2">
         <TableHead>
           <TableRow>
             <TableHeaderCell>First Name</TableHeaderCell>
@@ -68,7 +72,7 @@ const EmpTable = () => {
           ))}
         </TableBody>
       </Table>
-    </Card>
+    </div>
   );
 };
 
