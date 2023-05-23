@@ -6,8 +6,11 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import EmpTable from "./components/Table";
 import { TailwindIndicator } from "./components/tailwindcss-indcator";
 import "./index.css";
+import Department from "./pages/Admin/Department";
+import Roles from "./pages/Admin/Roles";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +39,20 @@ const router = createBrowserRouter([
       {
         path: "admin",
         element: <Admin />,
+        children: [
+          {
+            path: "",
+            element: <EmpTable />,
+          },
+          {
+            path: "departments",
+            element: <Department />,
+          },
+          {
+            path: "roles",
+            element: <Roles />,
+          },
+        ],
       },
       {
         path: "employee",
