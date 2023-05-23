@@ -1,5 +1,10 @@
 import { createEmp, getAllDepts, getAllRoles } from "@/lib/api";
-import { LockClosedIcon, MailIcon, XIcon } from "@heroicons/react/outline";
+import {
+  LockClosedIcon,
+  MailIcon,
+  PlusIcon,
+  XIcon,
+} from "@heroicons/react/outline";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, SelectBox, SelectBoxItem, TextInput } from "@tremor/react";
@@ -111,9 +116,9 @@ const DialogDemo = () => {
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
-        <button className="inline-flex h-[35px] items-center justify-center rounded-[4px] bg-white px-[15px] font-medium leading-none text-gray-800 shadow-[0_2px_10px] shadow-blackA7 hover:bg-mauve3 focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
+        <Button variant="secondary" color="gray" icon={PlusIcon}>
           Add Employee
-        </button>
+        </Button>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-blackA9 data-[state=open]:animate-overlayShow" />

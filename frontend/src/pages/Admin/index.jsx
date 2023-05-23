@@ -10,37 +10,37 @@ function Admin() {
   const location = useLocation().pathname.split("/")[2];
 
   return (
-    <main className="flex min-h-screen flex-col gap-10 p-5">
-      {/* <div className="h-2 w-[100px] animate-pulse rounded-md bg-slate-300" /> */}
+    <main className="flex min-h-screen flex-col gap-5">
+      {/* <div className="h-2 w-[100px] animate-pulse rounded-md bg-gray-200" /> */}
       <AdminNav />
-      <div className="container mx-auto grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
+      <div className="container grid flex-1 gap-12 self-center px-5 md:grid-cols-[200px_1fr]">
         <aside className="w-[200px] flex-col">
           <div className="flex w-full flex-col gap-5">
             <Link
-              className={`flex cursor-pointer items-center gap-2 rounded-md ${
-                !location ? "bg-slate-200" : ""
-              } p-2`}
+              className={`flex cursor-pointer gap-2 rounded-md ${
+                !location ? "bg-gray-200" : ""
+              } px-2 py-1.5`}
               to=""
             >
-              <UserIcon className="max-w-[20px]" />
+              <UserIcon className="ml-1 max-w-[20px]" />
               <span>Employees</span>
             </Link>
             <Link
               className={`flex cursor-pointer gap-2 rounded-md ${
-                location === "departments" ? "bg-slate-200" : ""
-              } p-2`}
+                location === "departments" ? "bg-gray-200" : ""
+              } px-2 py-1.5`}
               to="departments"
             >
-              <ArchiveIcon className="max-w-[20px]" />
+              <ArchiveIcon className="ml-1 max-w-[20px]" />
               <span>Departments</span>
             </Link>
             <Link
               className={`flex cursor-pointer gap-2 rounded-md ${
-                location === "roles" ? "bg-slate-200" : ""
-              } p-2`}
+                location === "roles" ? "bg-gray-200" : ""
+              } px-2 py-1.5`}
               to="roles"
             >
-              <AcademicCapIcon className="max-w-[20px]" />
+              <AcademicCapIcon className="ml-1 max-w-[20px]" />
               <span>Roles</span>
             </Link>
           </div>
