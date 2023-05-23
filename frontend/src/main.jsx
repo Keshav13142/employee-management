@@ -1,16 +1,16 @@
+import { TailwindIndicator } from "@/components/tailwindcss-indcator";
 import Admin from "@/pages/Admin";
+import Department from "@/pages/Admin/Department";
+import Roles from "@/pages/Admin/Roles";
 import Employee from "@/pages/Employee";
-import Home from "@/pages/Home";
+import Login from "@/pages/Login";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import EmpTable from "./components/Table";
-import { TailwindIndicator } from "./components/tailwindcss-indcator";
+import EmpTable from "./components/EmpTable";
 import "./index.css";
-import Department from "./pages/Admin/Department";
-import Roles from "./pages/Admin/Roles";
 
 const queryClient = new QueryClient();
 
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <Login />,
       },
       {
         path: "admin",
