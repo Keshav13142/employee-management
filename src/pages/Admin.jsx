@@ -1,5 +1,5 @@
-import AdminNav from "../components/AdminNav";
-import EmpTable from "../components/Table";
+import AdminNav from "@/components/AdminNav";
+import EmpTable from "@/components/Table";
 
 function Admin() {
   return (

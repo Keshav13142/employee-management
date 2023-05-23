@@ -1,5 +1,5 @@
 import React from "react";
-import AddEmp from "../components/AddEmp";
+import AddEmp from "./AddEmp";
 
 const AdminNav = () => {
   return (

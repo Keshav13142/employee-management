@@ -1,3 +1,4 @@
+import { createEmp, getAllDepts, getAllRoles } from "@/lib/api";
 import { LockClosedIcon, MailIcon, XIcon } from "@heroicons/react/outline";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -5,7 +6,6 @@ import { Button, SelectBox, SelectBoxItem, TextInput } from "@tremor/react";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { ClipLoader } from "react-spinners";
-import { createEmp, getAllDepts, getAllRoles } from "../api";
 
 const DialogDemo = () => {
   const [open, setOpen] = React.useState(false);

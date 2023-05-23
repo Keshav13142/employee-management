@@ -1,3 +1,4 @@
+import { getAllEmployees } from "@/lib/api";
 import { AcademicCapIcon, ArchiveIcon } from "@heroicons/react/outline";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -12,7 +13,6 @@ import {
   Text,
   Title,
 } from "@tremor/react";
-import { getAllEmployees } from "../api";
 
 const EmpTable = () => {
   const { data, isLoading } = useQuery(["allEmployees"], getAllEmployees);

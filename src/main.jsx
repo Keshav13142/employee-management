@@ -1,10 +1,26 @@
+import Admin from "@/pages/Admin";
+import Employee from "@/pages/Employee";
+import Home from "@/pages/Home";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRoot } from "react-dom/client";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./index.css";
-import Admin from "./pages/Admin";
-import Employee from "./pages/Employee";
-import Home from "./pages/Home";
-import Root from "./pages/root";
+
+const queryClient = new QueryClient();
+
+const Root = () => {
+  return (
+    <>
+      <QueryClientProvider client={queryClient}>
+        <Toaster position="top-right" reverseOrder={false} />
+        <Outlet />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </>
+  );
+};
 
 const router = createBrowserRouter([
   {
