@@ -109,64 +109,48 @@ const DialogDemo = () => {
       icon: MailIcon,
       name: "emailId",
       type: "email",
-      required: true,
-      onChange,
     },
     {
-      placeholder: "secret",
+      placeholder: "super secret",
       label: "Password",
       icon: LockClosedIcon,
       name: "password",
       type: "password",
-      required: true,
-      onChange,
     },
     {
       placeholder: "John",
       label: "First Name",
       name: "firstName",
-      required: true,
-      onChange,
     },
     {
       placeholder: "Doe",
       label: "Last Name",
       name: "lastName",
-      required: true,
-      onChange,
     },
     {
       placeholder: "69",
       label: "Age",
       type: "number",
       name: "age",
-      required: true,
-      onChange,
     },
     {
       placeholder: "6942069420",
       label: "Mobile Number",
       name: "mobileNumber",
       type: "number",
-      required: true,
-      onChange,
     },
     {
       placeholder: "Type....",
       label: "Address",
       className: "max-w-sm",
       name: "address",
-      required: false,
-      onChange,
     },
     {
       className: "max-w-sm",
       placeholder: "hello",
       name: "joinDate",
-      required: true,
       type: "date",
       label: "Date of Joining",
-      onChange,
     },
   ];
 
@@ -213,13 +197,11 @@ const DialogDemo = () => {
               <div key={idx} className="flex w-[45%] flex-col">
                 <span className="text-sm text-slate-600">{input.label}</span>
                 <TextInput
-                  label={input.label}
                   name={input.name}
-                  type={input.type}
-                  onChange={input.onChange}
+                  type={input.type ?? "text"}
+                  onChange={onChange}
                   placeholder={input.placeholder ?? ""}
                   icon={input.icon}
-                  required={input.required}
                   className="placeholder mt-1"
                 />
                 <span className="mt-1 text-sm text-red-400">
