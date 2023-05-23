@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { TailwindIndicator } from "./components/tailwindcss-indcator";
 import "./index.css";
 
 const queryClient = new QueryClient();
@@ -17,6 +18,7 @@ const Root = () => {
         <Toaster position="top-right" reverseOrder={false} />
         <Outlet />
         <ReactQueryDevtools initialIsOpen={false} />
+        <TailwindIndicator />
       </QueryClientProvider>
     </>
   );
