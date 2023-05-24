@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.cognizant.EMS.Exception.ResourceNotFoundException;
@@ -40,14 +41,9 @@ public class RolesController {
   }
 
   @PutMapping("/{id}")
-  public Roles updateRoles(@PathVariable Long id, @RequestBody Roles roles) throws ResourceNotFoundException {
-    Optional<Roles> obj = rolesService.getRolesById(id);
-    if (obj != null) {
-      log.info("Successfully updated the detail of roles");
-      return rolesService.updateRoles(id, roles);
-    } else {
-      throw new ResourceNotFoundException("Role data is not found ");
-    }
+  public ResponseEntity<Void> updateRoleById(@PathVariable Long id, @RequestBody Roles role) {
+    rolesService.updateRoleById(id, role.getRole());
+    return ResponseEntity.ok().build();
 
   }
 

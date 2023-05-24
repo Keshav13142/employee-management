@@ -27,16 +27,10 @@ public class RolesService {
     return rolesRepository.save(roles);
   }
 
-  public Roles updateRoles(Long id, Roles updatedRoles) {
-    Roles role = rolesRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Employee not found"));
-    if (updatedRoles.hasrole()) {
-      updatedRoles.setRole(updatedRoles.getRole());
-    }
-
-    if (updatedRoles.hassalary()) {
-      role.setSalary(updatedRoles.getSalary());
-    }
-    return rolesRepository.save(role);
+  public void updateRoleById(Long id, String role) {
+    Roles db_role = rolesRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Role not found"));
+    db_role.setRole(role);
+    rolesRepository.save(db_role);
   }
 
   public boolean deleteRoles(Long id) {
