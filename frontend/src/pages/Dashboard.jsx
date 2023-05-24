@@ -3,12 +3,9 @@ import {
   ArrowLeftOnRectangleIcon as LogoutIcon,
 } from "@heroicons/react/24/outline";
 import { Icon } from "@tremor/react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 function Dashboard() {
-  const location = useLocation().pathname.split("/")[2];
-  const navigate = useNavigate();
-
   return (
     <main className="flex min-h-screen flex-col">
       {/* <div className="h-2 w-[100px] animate-pulse rounded-md bg-gray-200" /> */}
@@ -21,13 +18,12 @@ function Dashboard() {
           />
           <h1 className="text-xl lg:py-0.5">Dashboard</h1>
         </div>
-        <Icon
-          icon={LogoutIcon}
-          className="cursor-pointer rounded-full text-slate-700 transition-all duration-200 hover:scale-110 hover:bg-slate-200 hover:shadow-lg"
-          onClick={() => {
-            navigate("/");
-          }}
-        />
+        <Link to="/">
+          <Icon
+            icon={LogoutIcon}
+            className="cursor-pointer rounded-full text-slate-700 transition-all duration-200 hover:scale-110 hover:bg-slate-200 hover:shadow-lg"
+          />
+        </Link>
       </header>
       <div className="flex w-full flex-1 flex-col overflow-hidden rounded-md p-5">
         <Outlet />
