@@ -135,7 +135,6 @@ const AddEmployee = () => {
       name: "address",
     },
     {
-      className: "max-w-sm",
       placeholder: "hello",
       name: "joinDate",
       type: "date",

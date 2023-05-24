@@ -21,7 +21,7 @@ import {
 } from "@tremor/react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import AddEmp from "../../components/AddEmp";
+import AddEmp from "../components/AddEmp";
 
 const AdminDashboard = () => {
   const { data, isLoading, refetch } = useQuery(

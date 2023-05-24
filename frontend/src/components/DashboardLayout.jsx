@@ -25,9 +25,7 @@ function Dashboard({ children }) {
           />
         </Link>
       </header>
-      <div className="flex w-full flex-1 flex-col overflow-hidden rounded-md p-5">
-        {children}
-      </div>
+      <div className="flex w-full flex-1 flex-col p-5">{children}</div>
     </main>
   );
 }
