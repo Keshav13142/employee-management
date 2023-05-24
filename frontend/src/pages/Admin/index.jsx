@@ -1,5 +1,6 @@
 import {
   deleteEmp,
+  editDept,
   getAllDepts,
   getAllEmployees,
   getAllRoles,
@@ -12,11 +13,13 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   Badge,
   Button,
   Icon,
+  List,
+  ListItem,
   Table,
   TableBody,
   TableCell,
@@ -24,7 +27,6 @@ import {
   TableHeaderCell,
   TableRow,
   Text,
-  Title,
 } from "@tremor/react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -40,7 +42,7 @@ const AdminDashboard = () => {
 
   const [selectedEmployee, setSeletedEmployee] = useState(null);
 
-  const mutation = useMutation(deleteEmp, {
+  const deleteEmpMutation = useMutation(deleteEmp, {
     onError: () => {
       toast.error("Failed to Delete Employee!");
     },
@@ -61,6 +63,17 @@ const AdminDashboard = () => {
     ["rolesList"],
     getAllRoles
   );
+
+  const editDeptMutation = useMutation(editDept, {
+    onError: () => {
+      toast.error("Failed to create Employee!");
+    },
+    onSuccess: () => {
+      toast.success("Successfully created Employee!");
+      queryClient.invalidateQueries({ queryKey: ["allEmployees"] });
+      setOpen(false);
+    },
+  });
 
   if (isLoading) return null;
 
@@ -101,9 +114,9 @@ const AdminDashboard = () => {
               </Button>
               <Button
                 color="red"
-                loading={mutation.isLoading}
+                loading={deleteEmpMutation.isLoading}
                 onClick={() => {
-                  mutation.mutate(selectedEmployee.id);
+                  deleteEmpMutation.mutate(selectedEmployee.id);
                 }}
                 className="inline-flex h-[35px] items-center justify-center rounded-[4px] bg-red4 px-[15px] font-medium leading-none text-red11 outline-none hover:bg-red5 focus:shadow-[0_0_0_2px] focus:shadow-red7"
               >
@@ -114,7 +127,7 @@ const AdminDashboard = () => {
         </Dialog.Portal>
       </Dialog.Root>
       <div className="flex items-center justify-between">
-        <Title className="text-lg lg:text-2xl">Employee list</Title>
+        <span className="text-lg lg:text-2xl">Employee list</span>
         <AddEmp />
       </div>
       <Table className="my-5 rounded-md border-2">
@@ -148,7 +161,7 @@ const AdminDashboard = () => {
                 <Text>{item.joinDate}</Text>
               </TableCell>
               <TableCell>
-                <Badge color="cyan" icon={ArchiveIcon}>
+                <Badge color="cyan" icon={ArchiveBoxIcon}>
                   {item.jobDepartment.deptName}
                 </Badge>
               </TableCell>
@@ -164,7 +177,7 @@ const AdminDashboard = () => {
                 <Icon
                   icon={TrashIcon}
                   color="red"
-                  className="cursor-pointer"
+                  className="cursor-pointer rounded-full transition-all duration-200 hover:scale-110 hover:bg-red-100 hover:shadow-lg"
                   onClick={() => {
                     setSeletedEmployee({
                       name: item.firstName,
@@ -178,13 +191,50 @@ const AdminDashboard = () => {
           ))}
         </TableBody>
       </Table>
-      <div className="flex flex-col gap-2 lg:flex-row">
-        <div className="flex-1 rounded-md p-2">
-          <Title className="text-lg lg:text-xl">Departments</Title>
+      <div className="mb-10 flex flex-1 flex-col gap-5 md:flex-row">
+        <div className="flex flex-1 flex-col gap-3 rounded-md p-2">
+          <div className="flex items-center justify-between">
+            <span className="text-lg lg:text-xl">Departments</span>
+            <Button icon={PlusIcon} size="xs" variant="secondary" color="gray">
+              Add
+            </Button>
+          </div>
+          <div className="rounded-md border-2 p-3 shadow-sm">
+            <List>
+              {deptList?.map((item) => (
+                <ListItem key={item.id} className="text-base text-slate-800">
+                  <span>{item.deptName}</span>
+                  <Icon
+                    icon={PencilIcon}
+                    color="gray"
+                    className="cursor-pointer rounded-full transition-all duration-200 hover:scale-110 hover:bg-slate-200 hover:shadow-lg"
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </div>
         </div>
-        <div className="border-x-2 border-slate-200" />
-        <div className="flex-1 rounded-md p-2">
-          <Title className="text-lg lg:text-xl">Roles</Title>
+        <div className="flex flex-1 flex-col gap-3 rounded-md p-2">
+          <div className="flex items-center justify-between">
+            <span className="text-lg lg:text-xl">Roles</span>
+            <Button icon={PlusIcon} size="xs" variant="secondary" color="gray">
+              Add
+            </Button>
+          </div>
+          <div className="rounded-md border-2 p-3 shadow-sm">
+            <List>
+              {roleList?.map((item) => (
+                <ListItem key={item.id} className="text-base text-slate-800">
+                  <span>{item.role}</span>
+                  <Icon
+                    icon={PencilIcon}
+                    color="gray"
+                    className="cursor-pointer rounded-full transition-all duration-200 hover:scale-110 hover:bg-slate-200 hover:shadow-lg"
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </div>
         </div>
       </div>
     </>

@@ -9,7 +9,6 @@ import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./index.css";
-import { adminSideNav, empSideNav } from "./lib/nav-list";
 import AdminDashboard from "./pages/Admin";
 
 const queryClient = new QueryClient();
@@ -42,7 +41,7 @@ const router = createBrowserRouter([
       },
       {
         path: "admin",
-        element: <Dashboard navList={adminSideNav} />,
+        element: <Dashboard />,
         children: [
           {
             path: "",
@@ -60,7 +59,7 @@ const router = createBrowserRouter([
       },
       {
         path: "employee",
-        element: <Dashboard navList={empSideNav} />,
+        element: <Dashboard />,
       },
     ],
   },
