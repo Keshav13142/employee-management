@@ -3,7 +3,6 @@ import { AcademicCapIcon, ArchiveIcon } from "@heroicons/react/outline";
 import { useQuery } from "@tanstack/react-query";
 import {
   Badge,
-  Card,
   Table,
   TableBody,
   TableCell,

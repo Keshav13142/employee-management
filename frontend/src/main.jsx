@@ -2,7 +2,6 @@ import { TailwindIndicator } from "@/components/tailwindcss-indcator";
 import Department from "@/pages/Admin/Department";
 import Roles from "@/pages/Admin/Roles";
 import Dashboard from "@/pages/Dashboard";
-import Employee from "@/pages/Employee";
 import Login from "@/pages/Login";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -19,7 +18,11 @@ const Root = () => {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <Toaster position="top-right" reverseOrder={false} />
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          toastOptions={{ duration: 1000 }}
+        />
         <Outlet />
         <ReactQueryDevtools initialIsOpen={false} />
         <TailwindIndicator />
