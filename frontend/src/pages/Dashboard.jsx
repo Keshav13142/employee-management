@@ -66,7 +66,7 @@ function Dashboard({ navList }) {
             {navList.map((item, idx) => (
               <Link
                 key={idx}
-                className={`flex cursor-pointer gap-2 rounded-md border-white text-sm hover:border ${
+                className={`flex cursor-pointer gap-2 rounded-md border border-white text-sm hover:border-slate-500 ${
                   location === item.path || (item.path === "" && !location)
                     ? "bg-gray-200"
                     : ""
