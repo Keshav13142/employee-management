@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       },
       {
         path: "admin",
-        element: <Dashboard navlist={adminSideNav} />,
+        element: <Dashboard navList={adminSideNav} />,
         children: [
           {
             path: "",
@@ -57,7 +57,7 @@ const router = createBrowserRouter([
       },
       {
         path: "employee",
-        element: <Dashboard navlist={empSideNav} />,
+        element: <Dashboard navList={empSideNav} />,
       },
     ],
   },
