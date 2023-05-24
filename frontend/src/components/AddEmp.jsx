@@ -1,4 +1,4 @@
-import { createEmp, getAllDepts, getAllRoles } from "@/lib/api";
+import { createEmp } from "@/lib/api";
 import { newEmployeeSchema, parseZodErrors } from "@/lib/validations";
 import {
   LockClosedIcon,
@@ -7,11 +7,10 @@ import {
   XIcon,
 } from "@heroicons/react/outline";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button, Dropdown, DropdownItem, TextInput } from "@tremor/react";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
-import { ClipLoader } from "react-spinners";
 
 const defaultInputs = {
   firstName: "",
@@ -47,7 +46,7 @@ const SelectField = ({ label, error, onChange, data, value }) => (
   <div className="flex w-[45%] flex-col">
     <span className="mb-1 text-sm text-slate-600">{label}</span>
     <Dropdown onValueChange={onChange} placeholder="Select..">
-      {data.map((field) => (
+      {data?.map((field) => (
         <DropdownItem
           key={field.id}
           value={field.id}
@@ -59,7 +58,7 @@ const SelectField = ({ label, error, onChange, data, value }) => (
   </div>
 );
 
-const DialogDemo = () => {
+const AddEmployee = ({ deptList, roleList }) => {
   const [open, setOpen] = React.useState(false);
 
   const [inputs, setInputs] = useState(defaultInputs);
@@ -67,16 +66,6 @@ const DialogDemo = () => {
   const [errors, setErrors] = useState(defaultErrors);
 
   const queryClient = useQueryClient();
-
-  const { data: deptList, isLoading: isDeptLoading } = useQuery(
-    ["deptList"],
-    getAllDepts
-  );
-
-  const { data: roleList, isLoading: isRolesLoading } = useQuery(
-    ["rolesList"],
-    getAllRoles
-  );
 
   const mutation = useMutation(createEmp, {
     onError: () => {
@@ -209,28 +198,22 @@ const DialogDemo = () => {
                 </span>
               </div>
             ))}
-            {isDeptLoading || isRolesLoading ? (
-              <ClipLoader size={45} color="blue" className="mt-2" />
-            ) : (
-              <>
-                <SelectField
-                  label="Department"
-                  onChange={(value) =>
-                    onSelectChange("jobDepartment", Number(value))
-                  }
-                  data={deptList}
-                  value="deptName"
-                  error={errors["jobDepartment"]}
-                />
-                <SelectField
-                  label="Role"
-                  onChange={(value) => onSelectChange("roles", Number(value))}
-                  data={roleList}
-                  value="role"
-                  error={errors["roles"]}
-                />
-              </>
-            )}
+            <SelectField
+              label="Department"
+              onChange={(value) =>
+                onSelectChange("jobDepartment", Number(value))
+              }
+              data={queryClient.getQueryData(["deptList"])}
+              value="deptName"
+              error={errors["jobDepartment"]}
+            />
+            <SelectField
+              label="Role"
+              onChange={(value) => onSelectChange("roles", Number(value))}
+              data={queryClient.getQueryData(["rolesList"])}
+              value="role"
+              error={errors["roles"]}
+            />
             <Button
               variant="secondary"
               color="gray"
@@ -257,4 +240,4 @@ const DialogDemo = () => {
   );
 };
 
-export default DialogDemo;
+export default AddEmployee;

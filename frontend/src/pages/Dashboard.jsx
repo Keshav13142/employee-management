@@ -9,9 +9,9 @@ function Dashboard({ navList }) {
   const navigate = useNavigate();
 
   return (
-    <main className="flex min-h-screen flex-col gap-5">
+    <main className="flex min-h-screen flex-col">
       {/* <div className="h-2 w-[100px] animate-pulse rounded-md bg-gray-200" /> */}
-      <header className="flex items-center justify-between gap-12 border-b-2 px-5  py-2">
+      <header className="flex items-center justify-between gap-12 border-b-2 px-5 py-2">
         <div className="flex items-center gap-2">
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild className="lg:hidden">
@@ -60,7 +60,7 @@ function Dashboard({ navList }) {
           }}
         />
       </header>
-      <div className="grid flex-1 px-5 lg:grid-cols-[200px_1fr]">
+      <div className="grid flex-1 p-5 lg:grid-cols-[200px_1fr]">
         <aside className="hidden w-[150px] flex-col lg:flex">
           <div className="flex w-full flex-col gap-2">
             {navList.map((item, idx) => (

@@ -1,11 +1,16 @@
-import { deleteEmp, getAllEmployees } from "@/lib/api";
+import {
+  deleteEmp,
+  getAllDepts,
+  getAllEmployees,
+  getAllRoles,
+} from "@/lib/api";
 import {
   AcademicCapIcon,
   ArchiveIcon,
   TrashIcon,
 } from "@heroicons/react/outline";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Badge,
   Button,
@@ -21,9 +26,9 @@ import {
 } from "@tremor/react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import AddEmp from "./AddEmp";
+import AddEmp from "../../components/AddEmp";
 
-const EmpTable = () => {
+const AdminDashboard = () => {
   const { data, isLoading, refetch } = useQuery(
     ["allEmployees"],
     getAllEmployees
@@ -45,10 +50,20 @@ const EmpTable = () => {
     },
   });
 
+  const { data: deptList, isLoading: isDeptLoading } = useQuery(
+    ["deptList"],
+    getAllDepts
+  );
+
+  const { data: roleList, isLoading: isRolesLoading } = useQuery(
+    ["rolesList"],
+    getAllRoles
+  );
+
   if (isLoading) return null;
 
   return (
-    <div className="max-h-fit">
+    <>
       <Dialog.Root
         open={open}
         onOpenChange={() => {
@@ -63,8 +78,8 @@ const EmpTable = () => {
               Are you absolutely sure?
             </Dialog.Title>
             <div className="text-mauve12">
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
+              This action cannot be undone. This will permanently delete the
+              user's account and remove their data.
               <p className="mt-2">
                 You are about to delete{" "}
                 <span className="font-medium">{selectedEmployee?.name}</span> 's
@@ -100,7 +115,7 @@ const EmpTable = () => {
         <Title className="text-lg lg:text-2xl">Employee list</Title>
         <AddEmp />
       </div>
-      <Table className="mt-5 rounded-md border-2">
+      <Table className="my-5 rounded-md border-2">
         <TableHead>
           <TableRow>
             <TableHeaderCell>First Name</TableHeaderCell>
@@ -161,8 +176,17 @@ const EmpTable = () => {
           ))}
         </TableBody>
       </Table>
-    </div>
+      <div className="flex flex-col gap-2 lg:flex-row">
+        <div className="flex-1 rounded-md p-2">
+          <Title className="text-lg lg:text-xl">Departments</Title>
+        </div>
+        <div className="border-x-2 border-slate-200" />
+        <div className="flex-1 rounded-md p-2">
+          <Title className="text-lg lg:text-xl">Roles</Title>
+        </div>
+      </div>
+    </>
   );
 };
 
-export default EmpTable;
+export default AdminDashboard;

@@ -8,9 +8,9 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import EmpTable from "./components/EmpTable";
 import "./index.css";
 import { adminSideNav, empSideNav } from "./lib/nav-list";
+import AdminDashboard from "./pages/Admin";
 
 const queryClient = new QueryClient();
 
@@ -46,7 +46,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "",
-            element: <EmpTable />,
+            element: <AdminDashboard />,
           },
           {
             path: "departments",
