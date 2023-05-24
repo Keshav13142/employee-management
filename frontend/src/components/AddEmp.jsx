@@ -1,11 +1,11 @@
 import { createEmp } from "@/lib/api";
 import { newEmployeeSchema, parseZodErrors } from "@/lib/validations";
 import {
+  EnvelopeIcon,
   LockClosedIcon,
-  MailIcon,
   PlusIcon,
-  XIcon,
-} from "@heroicons/react/outline";
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button, Dropdown, DropdownItem, TextInput } from "@tremor/react";
@@ -95,7 +95,7 @@ const AddEmployee = () => {
     {
       placeholder: "you@example.com",
       label: "Email",
-      icon: MailIcon,
+      icon: EnvelopeIcon,
       name: "emailId",
       type: "email",
     },
@@ -231,7 +231,7 @@ const AddEmployee = () => {
               className="absolute right-[10px] top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full hover:text-blue-400 focus:shadow-[0_0_0_2px] focus:shadow-blue-400 focus:outline-none"
               aria-label="Close"
             >
-              <XIcon />
+              <XMarkIcon />
             </button>
           </Dialog.Close>
         </Dialog.Content>

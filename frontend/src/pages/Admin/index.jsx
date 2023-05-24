@@ -6,9 +6,11 @@ import {
 } from "@/lib/api";
 import {
   AcademicCapIcon,
-  ArchiveIcon,
+  ArchiveBoxIcon,
+  PencilIcon,
+  PlusIcon,
   TrashIcon,
-} from "@heroicons/react/outline";
+} from "@heroicons/react/24/outline";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {

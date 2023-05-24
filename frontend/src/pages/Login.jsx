@@ -1,11 +1,11 @@
 import { empLogin } from "@/lib/api";
 import { loginSchema, parseZodErrors } from "@/lib/validations";
 import {
+  EnvelopeIcon,
   LockClosedIcon,
-  MailIcon,
   ShieldCheckIcon,
   UserIcon,
-} from "@heroicons/react/outline";
+} from "@heroicons/react/24/outline";
 import { useMutation } from "@tanstack/react-query";
 import { Button, TextInput, Toggle, ToggleItem } from "@tremor/react";
 import { useState } from "react";
@@ -38,7 +38,7 @@ function Home() {
     {
       placeholder: "you@example.com",
       label: "Email",
-      icon: MailIcon,
+      icon: EnvelopeIcon,
       name: "emailId",
       type: "email",
       required: true,

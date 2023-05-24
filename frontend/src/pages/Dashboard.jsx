@@ -1,5 +1,8 @@
-import { LogoutIcon, MenuAlt3Icon } from "@heroicons/react/outline";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import {
+  Cog8ToothIcon,
+  ArrowLeftOnRectangleIcon as LogoutIcon,
+} from "@heroicons/react/24/outline";
 import { Icon } from "@tremor/react";
 import React from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
@@ -50,6 +53,12 @@ function Dashboard({ navList }) {
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
           </DropdownMenu.Root>
+        <div className="flex items-center gap-1">
+          <Icon
+            icon={Cog8ToothIcon}
+            size="lg"
+            className="text-black transition-all duration-700 hover:rotate-180 hover:scale-110"
+          />
           <h1 className="text-xl lg:py-0.5">Dashboard</h1>
         </div>
         <Icon
