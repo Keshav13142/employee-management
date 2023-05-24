@@ -43,3 +43,13 @@ export const editRole = async ({ id, role }) => {
   const { data } = await client.put(`/role/${id}`, { role });
   return data;
 };
+
+export const createDept = async (deptName) => {
+  const { data } = await client.post(`/department/`, { deptName });
+  return data;
+};
+
+export const createRole = async (role) => {
+  const { data } = await client.post(`/role`, { role, salary: 100000 });
+  return data;
+};

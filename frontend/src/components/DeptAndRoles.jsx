@@ -1,4 +1,11 @@
-import { editDept, editRole, getAllDepts, getAllRoles } from "@/lib/api";
+import {
+  createDept,
+  createRole,
+  editDept,
+  editRole,
+  getAllDepts,
+  getAllRoles,
+} from "@/lib/api";
 import {
   CheckCircleIcon,
   PencilIcon,
@@ -18,11 +25,18 @@ const EditableList = ({
   setSelected,
   field,
   mutation,
+  onAdd,
 }) => (
   <div className="flex flex-1 flex-col gap-3 rounded-md p-2">
     <div className="flex items-center justify-between">
       <span className="text-lg lg:text-xl">{title}</span>
-      <Button icon={PlusIcon} size="xs" variant="secondary" color="gray">
+      <Button
+        icon={PlusIcon}
+        size="xs"
+        variant="secondary"
+        color="gray"
+        onClick={onAdd}
+      >
         Add
       </Button>
     </div>
@@ -94,14 +108,16 @@ const EditableList = ({
   </div>
 );
 
+const initalValues = {
+  name: "",
+  value: "",
+};
+
 const DeptAndRoles = () => {
   const [selectedDept, setSelectedDept] = useState(null);
   const [selectedRole, setSelectedRole] = useState(null);
   const [open, setOpen] = useState(false);
-  const [addItem, setAddItem] = useState({
-    name: "",
-    value: "",
-  });
+  const [addItem, setAddItem] = useState(initalValues);
 
   const { data: deptList, isLoading: isDeptLoading } = useQuery(
     ["deptList"],
@@ -115,31 +131,74 @@ const DeptAndRoles = () => {
 
   const queryClient = useQueryClient();
 
-  const onEditSuccess = (setState) => {
-    toast.success("Updated successfully!");
-    queryClient.invalidateQueries({ queryKey: ["deptList"] });
+  const onSuccess = (message, updateKey) => {
+    toast.success(`${message} successfully!`);
+
+    queryClient.invalidateQueries({ queryKey: [updateKey] });
     queryClient.invalidateQueries({ queryKey: ["allEmployees"] });
   };
 
-  const onEditError = () => {
-    toast.error("Failed to update!");
+  const onError = (message) => {
+    toast.error(`Failed to ${message}!`);
   };
 
   const editDeptMutation = useMutation(editDept, {
-    onError: onEditError,
+    onError: () => {
+      onError("update");
+    },
     onSuccess: () => {
-      onEditSuccess();
+      onSuccess("Updated", "deptList");
       setSelectedDept(null);
     },
   });
 
   const editRoleMutation = useMutation(editRole, {
-    onError: onEditError,
+    onError: () => {
+      onError("update");
+    },
     onSuccess: () => {
-      onEditSuccess();
+      onSuccess("Updated", "roleList");
       setSelectedRole(null);
     },
   });
+
+  const createDeptMutation = useMutation(createDept, {
+    onError: () => {
+      onError("create");
+    },
+    onSuccess: () => {
+      onSuccess("Created", "deptList");
+      setAddItem(initalValues);
+    },
+    onSettled: () => {
+      setOpen(false);
+    },
+  });
+
+  const createRoleMutation = useMutation(createRole, {
+    onError: () => {
+      onError("create");
+    },
+    onSuccess: () => {
+      onSuccess("Created", "roleList");
+      setAddItem(initalValues);
+    },
+    onSettled: () => {
+      setOpen(false);
+    },
+  });
+
+  const onAddSumbit = (e) => {
+    e.preventDefault();
+
+    if (addItem.value.trim() === "") {
+      return;
+    }
+
+    addItem.name === "Department"
+      ? createDeptMutation.mutate(addItem.value)
+      : createRoleMutation.mutate(addItem.value);
+  };
 
   return (
     <div className="mb-10 flex flex-1 flex-col gap-5 md:flex-row">
@@ -150,7 +209,25 @@ const DeptAndRoles = () => {
             <Dialog.Title className="m-0 text-[17px] font-medium text-mauve12">
               {addItem.name}
             </Dialog.Title>
-            <h1 className="text-xl">Enter the name</h1>
+            <form className="mt-5 flex flex-col gap-5" onSubmit={onAddSumbit}>
+              <TextInput
+                value={addItem.value}
+                placeholder="Type..."
+                onChange={({ target: { value } }) => {
+                  setAddItem((prev) => ({ ...prev, value }));
+                }}
+              />
+              <Button
+                variant="secondary"
+                color="gray"
+                className="self-end"
+                loading={
+                  createDeptMutation.isLoading || createRoleMutation.isLoading
+                }
+              >
+                Add
+              </Button>
+            </form>
             <Dialog.Close asChild>
               <button
                 className="absolute right-[10px] top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full text-violet11 hover:bg-violet4 focus:shadow-[0_0_0_2px] focus:shadow-violet7 focus:outline-none"
@@ -166,9 +243,8 @@ const DeptAndRoles = () => {
         title="Departments"
         data={deptList}
         onAdd={() => {
-          setAddItem({
-            name: "Department",
-          });
+          setOpen(true);
+          setAddItem((prev) => ({ ...prev, name: "Department" }));
         }}
         selected={selectedDept}
         setSelected={setSelectedDept}
@@ -179,9 +255,8 @@ const DeptAndRoles = () => {
         title="Roles"
         data={roleList}
         onAdd={() => {
-          setAddItem({
-            name: "Roles",
-          });
+          setOpen(true);
+          setAddItem((prev) => ({ ...prev, name: "Role" }));
         }}
         selected={selectedRole}
         setSelected={setSelectedRole}
