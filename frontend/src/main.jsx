@@ -1,7 +1,6 @@
+import DashboardLayout from "@/components/DashboardLayout";
 import { TailwindIndicator } from "@/components/tailwindcss-indcator";
-import Department from "@/pages/Admin/Department";
-import Roles from "@/pages/Admin/Roles";
-import Dashboard from "@/pages/Dashboard";
+import Admin from "@/pages/Admin";
 import Login from "@/pages/Login";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -9,7 +8,7 @@ import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./index.css";
-import AdminDashboard from "./pages/Admin";
+import Employee from "./pages/Employee";
 
 const queryClient = new QueryClient();
 
@@ -41,25 +40,19 @@ const router = createBrowserRouter([
       },
       {
         path: "admin",
-        element: <Dashboard />,
-        children: [
-          {
-            path: "",
-            element: <AdminDashboard />,
-          },
-          {
-            path: "departments",
-            element: <Department />,
-          },
-          {
-            path: "roles",
-            element: <Roles />,
-          },
-        ],
+        element: (
+          <DashboardLayout>
+            <Admin />
+          </DashboardLayout>
+        ),
       },
       {
         path: "employee",
-        element: <Dashboard />,
+        element: (
+          <DashboardLayout>
+            <Employee />
+          </DashboardLayout>
+        ),
       },
     ],
   },

@@ -3,9 +3,9 @@ import {
   ArrowLeftOnRectangleIcon as LogoutIcon,
 } from "@heroicons/react/24/outline";
 import { Icon } from "@tremor/react";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function Dashboard() {
+function Dashboard({ children }) {
   return (
     <main className="flex min-h-screen flex-col">
       {/* <div className="h-2 w-[100px] animate-pulse rounded-md bg-gray-200" /> */}
@@ -26,7 +26,7 @@ function Dashboard() {
         </Link>
       </header>
       <div className="flex w-full flex-1 flex-col overflow-hidden rounded-md p-5">
-        <Outlet />
+        {children}
       </div>
     </main>
   );
