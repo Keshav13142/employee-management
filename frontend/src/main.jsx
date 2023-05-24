@@ -21,7 +21,7 @@ const Root = () => {
         <Toaster
           position="top-center"
           reverseOrder={false}
-          toastOptions={{ duration: 1000 }}
+          toastOptions={{ duration: 1500 }}
         />
         <Outlet />
         <ReactQueryDevtools initialIsOpen={false} />
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       {
-        path: "/",
+        path: "",
         element: <Login />,
       },
       {
