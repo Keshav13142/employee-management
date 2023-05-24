@@ -58,7 +58,7 @@ const SelectField = ({ label, error, onChange, data, value }) => (
   </div>
 );
 
-const AddEmployee = ({ deptList, roleList }) => {
+const AddEmployee = () => {
   const [open, setOpen] = React.useState(false);
 
   const [inputs, setInputs] = useState(defaultInputs);

@@ -18,7 +18,7 @@ function Dashboard({ navList }) {
               <Icon
                 icon={MenuAlt3Icon}
                 variant="simple"
-                className="cursor-pointer text-black"
+                className="cursor-pointer rounded-full text-black transition-all duration-200 hover:scale-110 hover:bg-slate-200 hover:shadow-lg"
               />
             </DropdownMenu.Trigger>
             <DropdownMenu.Portal>
@@ -54,7 +54,7 @@ function Dashboard({ navList }) {
         </div>
         <Icon
           icon={LogoutIcon}
-          className="cursor-pointer text-slate-700"
+          className="cursor-pointer rounded-full text-slate-700 transition-all duration-200 hover:scale-110 hover:bg-slate-200 hover:shadow-lg"
           onClick={() => {
             navigate("/");
           }}
