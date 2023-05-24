@@ -1,15 +1,8 @@
-import {
-  deleteEmp,
-  editDept,
-  getAllDepts,
-  getAllEmployees,
-  getAllRoles,
-} from "@/lib/api";
+import DeptAndRoles from "@/components/DeptAndRoles";
+import { deleteEmp, getAllEmployees } from "@/lib/api";
 import {
   AcademicCapIcon,
   ArchiveBoxIcon,
-  PencilIcon,
-  PlusIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -18,8 +11,6 @@ import {
   Badge,
   Button,
   Icon,
-  List,
-  ListItem,
   Table,
   TableBody,
   TableCell,
@@ -51,27 +42,6 @@ const AdminDashboard = () => {
       refetch();
       setOpen(false);
       setSeletedEmployee(null);
-    },
-  });
-
-  const { data: deptList, isLoading: isDeptLoading } = useQuery(
-    ["deptList"],
-    getAllDepts
-  );
-
-  const { data: roleList, isLoading: isRolesLoading } = useQuery(
-    ["rolesList"],
-    getAllRoles
-  );
-
-  const editDeptMutation = useMutation(editDept, {
-    onError: () => {
-      toast.error("Failed to create Employee!");
-    },
-    onSuccess: () => {
-      toast.success("Successfully created Employee!");
-      queryClient.invalidateQueries({ queryKey: ["allEmployees"] });
-      setOpen(false);
     },
   });
 
@@ -191,52 +161,7 @@ const AdminDashboard = () => {
           ))}
         </TableBody>
       </Table>
-      <div className="mb-10 flex flex-1 flex-col gap-5 md:flex-row">
-        <div className="flex flex-1 flex-col gap-3 rounded-md p-2">
-          <div className="flex items-center justify-between">
-            <span className="text-lg lg:text-xl">Departments</span>
-            <Button icon={PlusIcon} size="xs" variant="secondary" color="gray">
-              Add
-            </Button>
-          </div>
-          <div className="rounded-md border-2 p-3 shadow-sm">
-            <List>
-              {deptList?.map((item) => (
-                <ListItem key={item.id} className="text-base text-slate-800">
-                  <span>{item.deptName}</span>
-                  <Icon
-                    icon={PencilIcon}
-                    color="gray"
-                    className="cursor-pointer rounded-full transition-all duration-200 hover:scale-110 hover:bg-slate-200 hover:shadow-lg"
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </div>
-        <div className="flex flex-1 flex-col gap-3 rounded-md p-2">
-          <div className="flex items-center justify-between">
-            <span className="text-lg lg:text-xl">Roles</span>
-            <Button icon={PlusIcon} size="xs" variant="secondary" color="gray">
-              Add
-            </Button>
-          </div>
-          <div className="rounded-md border-2 p-3 shadow-sm">
-            <List>
-              {roleList?.map((item) => (
-                <ListItem key={item.id} className="text-base text-slate-800">
-                  <span>{item.role}</span>
-                  <Icon
-                    icon={PencilIcon}
-                    color="gray"
-                    className="cursor-pointer rounded-full transition-all duration-200 hover:scale-110 hover:bg-slate-200 hover:shadow-lg"
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </div>
-      </div>
+      <DeptAndRoles />
     </>
   );
 };

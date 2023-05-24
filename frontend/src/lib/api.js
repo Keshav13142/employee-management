@@ -33,3 +33,13 @@ export const empLogin = async (empData) => {
   const { data } = await client.post("/employees/login", empData);
   return data;
 };
+
+export const editDept = async ({ id, deptName }) => {
+  const { data } = await client.put(`/department/${id}`, { deptName });
+  return data;
+};
+
+export const editRole = async ({ id, role }) => {
+  const { data } = await client.put(`/role/${id}`, { role });
+  return data;
+};
