@@ -25,7 +25,7 @@ const NavDropDown = ({ navList }) => {
           {navList.map((item, idx) => (
             <DropdownMenu.Item
               key={idx}
-              className={`group relative flex cursor-pointer select-none items-center gap-2 rounded-md text-sm leading-none text-slate-800 ${
+              className={`group relative my-0.5 flex cursor-pointer select-none items-center gap-2 rounded-md border border-white text-sm leading-none text-slate-800 hover:border-slate-400 ${
                 location === item.path || (item.path === "" && !location)
                   ? "bg-gray-200"
                   : ""
