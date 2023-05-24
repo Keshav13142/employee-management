@@ -4,7 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cognizant.EMS.Exception.ResourceNotFoundException;
 import com.cognizant.EMS.entity.JobDepartment;
@@ -40,15 +49,10 @@ public class JobDepartmentController {
   }
 
   @PutMapping("/{id}")
-  public JobDepartment updateJobDepartment(@PathVariable Long id, @RequestBody JobDepartment jobDepartment)
-      throws ResourceNotFoundException {
-    Optional<JobDepartment> obj = jobDepartmentService.getJobDepartmentById(id);
-    if (obj != null) {
-      log.info("Successfully updated details of the department");
-      return jobDepartmentService.updateJobDepartment(id, jobDepartment);
-    } else {
-      throw new ResourceNotFoundException("The Department detail is not found ");
-    }
+  public ResponseEntity<Void> updateJobDepartment(@PathVariable Long id, @RequestBody JobDepartment dept) {
+    log.info("Successfully updated details of the department");
+    jobDepartmentService.updateJobDepartment(id, dept.getDeptName());
+    return ResponseEntity.ok().build();
 
   }
 
