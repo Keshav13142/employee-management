@@ -1,7 +1,7 @@
 import { TailwindIndicator } from "@/components/tailwindcss-indcator";
-import Admin from "@/pages/Admin";
 import Department from "@/pages/Admin/Department";
 import Roles from "@/pages/Admin/Roles";
+import Dashboard from "@/pages/Dashboard";
 import Employee from "@/pages/Employee";
 import Login from "@/pages/Login";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -11,6 +11,7 @@ import { Toaster } from "react-hot-toast";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import EmpTable from "./components/EmpTable";
 import "./index.css";
+import { adminSideNav, empSideNav } from "./lib/nav-list";
 
 const queryClient = new QueryClient();
 
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
       },
       {
         path: "admin",
-        element: <Admin />,
+        element: <Dashboard navlist={adminSideNav} />,
         children: [
           {
             path: "",
@@ -56,7 +57,7 @@ const router = createBrowserRouter([
       },
       {
         path: "employee",
-        element: <Employee />,
+        element: <Dashboard navlist={empSideNav} />,
       },
     ],
   },

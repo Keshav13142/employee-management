@@ -23,7 +23,7 @@ const EmpTable = () => {
   return (
     <div className="max-h-fit">
       <div className="flex items-center justify-between">
-        <Title className="text-2xl">Employee list</Title>
+        <Title className="text-lg lg:text-2xl">Employee list</Title>
         <AddEmp />
       </div>
       <Table className="mt-5 rounded-md border-2">
