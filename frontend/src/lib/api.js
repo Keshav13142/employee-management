@@ -24,6 +24,11 @@ export const createEmp = async (empData) => {
   return data;
 };
 
+export const deleteEmp = async (id) => {
+  const { data } = await client.delete(`/employees/${id}`);
+  return data;
+};
+
 export const empLogin = async (empData) => {
   const { data } = await client.post("/employees/login", empData);
   return data;

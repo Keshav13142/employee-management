@@ -1,8 +1,15 @@
-import { getAllEmployees } from "@/lib/api";
-import { AcademicCapIcon, ArchiveIcon } from "@heroicons/react/outline";
-import { useQuery } from "@tanstack/react-query";
+import { deleteEmp, getAllEmployees } from "@/lib/api";
+import {
+  AcademicCapIcon,
+  ArchiveIcon,
+  TrashIcon,
+} from "@heroicons/react/outline";
+import * as Dialog from "@radix-ui/react-dialog";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   Badge,
+  Button,
+  Icon,
   Table,
   TableBody,
   TableCell,
@@ -12,15 +19,83 @@ import {
   Text,
   Title,
 } from "@tremor/react";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
 import AddEmp from "./AddEmp";
 
 const EmpTable = () => {
-  const { data, isLoading } = useQuery(["allEmployees"], getAllEmployees);
+  const { data, isLoading, refetch } = useQuery(
+    ["allEmployees"],
+    getAllEmployees
+  );
+
+  const [open, setOpen] = useState(false);
+
+  const [selectedEmployee, setSeletedEmployee] = useState(null);
+
+  const mutation = useMutation(deleteEmp, {
+    onError: () => {
+      toast.error("Failed to Delete Employee!");
+    },
+    onSuccess: () => {
+      toast.success("Successfully Deleted Employee!");
+      refetch();
+      setOpen(false);
+      setSeletedEmployee(null);
+    },
+  });
 
   if (isLoading) return null;
 
   return (
     <div className="max-h-fit">
+      <Dialog.Root
+        open={open}
+        onOpenChange={() => {
+          setOpen((prev) => !prev);
+          setSeletedEmployee(null);
+        }}
+      >
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 bg-blackA9 data-[state=open]:animate-overlayShow" />
+          <Dialog.Content className="fixed left-[50%] top-[50%] flex max-h-[95vh] w-[90vw] max-w-[500px] translate-x-[-50%] translate-y-[-50%] flex-col gap-5 overflow-y-auto rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none data-[state=open]:animate-contentShow">
+            <Dialog.Title className="m-0 text-xl font-medium text-mauve12">
+              Are you absolutely sure?
+            </Dialog.Title>
+            <div className="text-mauve12">
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+              <p className="mt-2">
+                You are about to delete{" "}
+                <span className="font-medium">{selectedEmployee?.name}</span> 's
+                account!!
+              </p>
+            </div>
+            <div className="flex gap-3 self-end">
+              <Button
+                color="gray"
+                variant="secondary"
+                onClick={() => {
+                  setOpen(false);
+                  setSeletedEmployee(null);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                color="red"
+                loading={mutation.isLoading}
+                onClick={() => {
+                  mutation.mutate(selectedEmployee.id);
+                }}
+                className="inline-flex h-[35px] items-center justify-center rounded-[4px] bg-red4 px-[15px] font-medium leading-none text-red11 outline-none hover:bg-red5 focus:shadow-[0_0_0_2px] focus:shadow-red7"
+              >
+                Yes, delete account
+              </Button>
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
       <div className="flex items-center justify-between">
         <Title className="text-lg lg:text-2xl">Employee list</Title>
         <AddEmp />
@@ -36,6 +111,7 @@ const EmpTable = () => {
             <TableHeaderCell>Department</TableHeaderCell>
             <TableHeaderCell>Role</TableHeaderCell>
             <TableHeaderCell>Mobile Number</TableHeaderCell>
+            <TableHeaderCell className="text-center">Actions</TableHeaderCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -66,6 +142,20 @@ const EmpTable = () => {
               </TableCell>
               <TableCell>
                 <Text>{item.mobileNumber}</Text>
+              </TableCell>
+              <TableCell className="text-center">
+                <Icon
+                  icon={TrashIcon}
+                  color="red"
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setSeletedEmployee({
+                      name: item.firstName,
+                      id: item.id,
+                    });
+                    setOpen(true);
+                  }}
+                />
               </TableCell>
             </TableRow>
           ))}
