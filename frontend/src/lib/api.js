@@ -60,6 +60,12 @@ export const createRole = async (role) => {
 };
 
 export const getAbsences = async (id) => {
-  const { data } = await client.get(`/absences?empId=${id}`);
+  let { data } = await client.get(`/absences`);
+  data = data?.map((item) => {
+    item.fromDate = new Date(item?.fromDate);
+    item.toDate = new Date(item?.toDate);
+    return item;
+  });
+
   return data;
 };

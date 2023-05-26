@@ -4,11 +4,21 @@ import { newEmployeeSchema, parseZodErrors } from "@/lib/validations";
 import {
   CalendarDaysIcon,
   CalendarIcon,
+  CheckCircleIcon,
   EnvelopeIcon,
+  PencilIcon,
   UserIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Button, TextInput } from "@tremor/react";
+import {
+  Button,
+  DateRangePicker,
+  Icon,
+  List,
+  ListItem,
+  TextInput,
+} from "@tremor/react";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -85,11 +95,21 @@ const defaultInputs = {
   address: null,
 };
 
+const format = (date) => {
+  return Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "2-digit",
+    year: "numeric",
+  }).format(date);
+};
+
 const Employee = () => {
   const { user, setUser } = useContext(AppContext);
   const [isFetchEnabled, setIsFetchEnabled] = useState(false);
   const [errors, setErrors] = useState(defaultErrors);
   const [inputs, setInputs] = useState(defaultInputs);
+  const [selected, setSelected] = useState(null);
+  const [addItem, setAddItem] = useState(null);
 
   const { data, isLoading } = useQuery(
     ["allAbsences"],
@@ -192,6 +212,67 @@ const Employee = () => {
           <h1>Your Absences</h1>
           <CalendarDaysIcon className="max-w-[20px]" />
         </div>
+        <List className="h-full flex-1">
+          {data?.map((item) => (
+            <ListItem
+              key={item.id}
+              className="flex min-h-fit items-start text-base text-slate-800"
+            >
+              {selected?.id === item.id ? (
+                <div className="ml-1 flex w-full items-center justify-between">
+                  <DateRangePicker
+                    className="max-w-sm"
+                    enableDropdown={false}
+                    value={[item.fromDate, item.toDate]}
+                    // onValueChange={() => {}}
+                  />
+                  <div className="flex items-center gap-2">
+                    <Button
+                      icon={CheckCircleIcon}
+                      loading={mutation.isLoading}
+                      variant="secondary"
+                      color="green"
+                      type="submit"
+                      onClick={() => {
+                        // if (selected?.[field].trim() === "") {
+                        //   setSelected(null);
+                        //   return;
+                        // }
+                        // mutation.mutate(selected);
+                      }}
+                    >
+                      Save
+                    </Button>
+                    <Icon
+                      unselectable="off"
+                      icon={XMarkIcon}
+                      color="red"
+                      className="cursor-pointer rounded-full bg-red-100 transition-all duration-200 hover:scale-110 hover:shadow-lg"
+                      onClick={() => {
+                        setSelected(null);
+                      }}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="flex items-center gap-2">
+                    <span>{format(item.fromDate)}</span>-
+                    <span>{format(item.toDate)}</span>
+                  </div>
+                  <Icon
+                    icon={PencilIcon}
+                    color="gray"
+                    className="cursor-pointer rounded-full transition-all duration-200 hover:scale-110 hover:bg-slate-200 hover:shadow-lg"
+                    onClick={() => {
+                      setSelected(item);
+                    }}
+                  />
+                </>
+              )}
+            </ListItem>
+          ))}
+        </List>
       </div>
     </div>
   );
