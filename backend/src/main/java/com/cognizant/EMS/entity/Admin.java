@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "admin")
 public class Admin {
@@ -20,48 +22,57 @@ public class Admin {
 
   @Column(name = "first_name")
   private String firstName;
+  @JsonIgnore
   @Transient
   private boolean hasFirstName = false;
 
   @Column(name = "last_name", nullable = false)
   private String lastName;
+  @JsonIgnore
   @Transient
   private boolean hasLastName = false;
 
   @Column(name = "age")
   private int age;
+  @JsonIgnore
   @Transient
   private boolean hasAge = false;
 
   @Column(name = "mobile_number", unique = true, nullable = false)
   private String mobileNumber;
+  @JsonIgnore
   @Transient
   private boolean hasMobileNumber = false;
 
   @Column(name = "address")
   private String address;
+  @JsonIgnore
   @Transient
   private boolean hasAddress = false;
 
   @Column(name = "email_id", unique = true, nullable = false)
   private String emailId;
+  @JsonIgnore
   @Transient
   private boolean hasEmailId = false;
 
   @Column(name = "join_date")
   private String joinDate;
+  @JsonIgnore
   @Transient
   private boolean hasJoinDate = false;
 
   @ManyToOne
   @JoinColumn(name = "job_id", nullable = false)
   private JobDepartment jobid;
+  @JsonIgnore
   @Transient
   private boolean hasjobDepartment;
 
   @ManyToOne
   @JoinColumn(name = "role_id", nullable = false)
   private Roles role;
+  @JsonIgnore
   @Transient
   private boolean hasRole;
 

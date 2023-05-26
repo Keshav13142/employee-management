@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +27,7 @@ public class JobDepartment {
 
   @Column(name = "dept_name")
   private String deptName;
+  @JsonIgnore
   @Transient
   private boolean hasDeptName = false;
 

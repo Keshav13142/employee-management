@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,11 +27,13 @@ public class Roles {
 
   @Column(name = "role")
   private String role;
+  @JsonIgnore
   @Transient
   private boolean hasrole = false;
 
   @Column(name = "salary")
   private double salary;
+  @JsonIgnore
   @Transient
   private boolean hassalary = false;
 

@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -23,26 +25,31 @@ public class Employee {
 
   @Column(name = "first_name")
   private String firstName;
+  @JsonIgnore
   @Transient
   private boolean hasFirstName = false;
 
   @Column(name = "last_name", nullable = false)
   private String lastName;
+  @JsonIgnore
   @Transient
   private boolean hasLastName = false;
 
   @Column(name = "age")
   private int age;
+  @JsonIgnore
   @Transient
   private boolean hasAge = false;
 
   @Column(name = "mobile_number", unique = true, nullable = false)
   private String mobileNumber;
+  @JsonIgnore
   @Transient
   private boolean hasMobileNumber = false;
 
   @Column(name = "address")
   private String address;
+  @JsonIgnore
   @Transient
   private boolean hasAddress = false;
 
@@ -51,44 +58,53 @@ public class Employee {
   @Transient
   private boolean hasEmailId = false;
 
+  @JsonIgnore
   @Column(name = "password", nullable = false)
   private String password;
+  @JsonIgnore
   @Transient
   private boolean hasPassword = false;
 
   @Column(name = "join_date")
   private String joinDate;
+  @JsonIgnore
   @Transient
   private boolean hasJoinDate = false;
 
   @Column(name = "total_leave_count")
   private int totalLeaveCount = 36;
+  @JsonIgnore
   @Transient
   private boolean hasTotalLeaveCount = false;
 
   @Column(name = "training_slot")
   private int trainingSlot = 10;
+  @JsonIgnore
   @Transient
   private boolean hasTrainingSlot = false;
 
-  // @Column(name = "certificate")
   @Transient
   private String certificate;
 
   @ManyToOne
   @JoinColumn(name = "job_id", nullable = false)
   private JobDepartment jobid;
+  @JsonIgnore
   @Transient
   private boolean hasjobDepartment;
 
   @ManyToOne
   @JoinColumn(name = "role_id", nullable = false)
   private Roles roleid;
+  @JsonIgnore
   @Transient
   private boolean hasRole;
 
+  @JsonIgnore
   @Transient
   private double salary;
+
+  @JsonIgnore
   @Transient
   private double deductions;
 

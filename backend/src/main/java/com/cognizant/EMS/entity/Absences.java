@@ -16,6 +16,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "absences")
 @Getter
@@ -29,11 +31,13 @@ public class Absences {
 
   @Column(name = "from_date", nullable = false)
   private Date fromDate;
+  @JsonIgnore
   @Transient
   private boolean hasFromDate = false;
 
   @Column(name = "to_date", nullable = false)
   private Date toDate;
+  @JsonIgnore
   @Transient
   private boolean hasToDate = false;
 
@@ -42,12 +46,14 @@ public class Absences {
 
   @Column(name = "reason")
   private String reason;
+  @JsonIgnore
   @Transient
   private boolean hasreason = false;
 
   @OneToOne
   @JoinColumn(name = "emp_id", nullable = false)
   private Employee emp;
+  @JsonIgnore
   @Transient
   private boolean hasempid = false;
 
