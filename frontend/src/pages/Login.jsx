@@ -17,7 +17,7 @@ const SUCCESS_MSG = "Logged in successfully!";
 const ERROR_MSG = "Invalid credentials!";
 
 function Home() {
-  const { setUser } = useContext(AppContext);
+  const { user, setUser } = useContext(AppContext);
 
   const [isAdmin, setIsAdmin] = useState(true);
 
@@ -70,6 +70,10 @@ function Home() {
   });
 
   const login = (e) => {
+    if (user) {
+      user.type === "ADMIN" ? navigate("admin") : navigate("employee");
+    }
+
     e.preventDefault();
 
     // Check the form inputs for error
@@ -87,6 +91,7 @@ function Home() {
         inputs.password.trim() === "admin"
       ) {
         navigate("admin");
+        setUser({ type: "ADMIN" });
         toast.success(SUCCESS_MSG);
       } else {
         toast.error(ERROR_MSG);

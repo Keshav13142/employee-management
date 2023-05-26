@@ -135,7 +135,6 @@ const AddEmployee = () => {
       name: "address",
     },
     {
-      placeholder: "hello",
       name: "joinDate",
       type: "date",
       label: "Date of Joining",
