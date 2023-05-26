@@ -48,27 +48,11 @@ public class EmployeeService {
     Employee employee = employeeRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Employee not found"));
 
-    if (updatedEmployee.hasFirstName()) {
-      employee.setFirstName(updatedEmployee.getFirstName());
-    }
-    if (updatedEmployee.hasLastName()) {
-      employee.setLastName(updatedEmployee.getLastName());
-    }
-    if (updatedEmployee.hasAge()) {
-      employee.setAge(updatedEmployee.getAge());
-    }
-    if (updatedEmployee.hasMobileNumber()) {
-      employee.setMobileNumber(updatedEmployee.getMobileNumber());
-    }
-    if (updatedEmployee.hasAddress()) {
-      employee.setAddress(updatedEmployee.getAddress());
-    }
-    if (updatedEmployee.hasEmailId()) {
-      employee.setEmailId(updatedEmployee.getEmailId());
-    }
-    if (updatedEmployee.hasJoinDate()) {
-      employee.setJoinDate(updatedEmployee.getJoinDate());
-    }
+    employee.setFirstName(updatedEmployee.getFirstName());
+    employee.setLastName(updatedEmployee.getLastName());
+    employee.setAge(updatedEmployee.getAge());
+    employee.setMobileNumber(updatedEmployee.getMobileNumber());
+    employee.setAddress(updatedEmployee.getAddress());
 
     return employeeRepository.save(employee);
   }
