@@ -2,12 +2,13 @@ package com.cognizant.EMS.service;
 
 import java.util.List;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cognizant.EMS.entity.Employee;
 import com.cognizant.EMS.repository.EmployeeRepository;
+
+import at.favre.lib.crypto.bcrypt.BCrypt;
 
 @Service
 public class EmployeeService {
@@ -28,11 +29,15 @@ public class EmployeeService {
     return employeeRepository.save(employee);
   }
 
-  public boolean login(String email, String password) {
+  public Employee login(String email, String password) {
     Employee employee = employeeRepository.findByEmailId(email);
 
-    return employee != null &&
-        BCrypt.verifyer().verify(password.toCharArray(), employee.getPassword()).verified;
+    if (employee == null ||
+        !BCrypt.verifyer().verify(password.toCharArray(), employee.getPassword()).verified) {
+      return null;
+    }
+
+    return employee;
   }
 
   public Employee getEmployee(Long id) {

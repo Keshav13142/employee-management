@@ -2,14 +2,21 @@ package com.cognizant.EMS.controller;
 
 import java.util.List;
 
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cognizant.EMS.Exception.ResourceNotFoundException;
-import com.cognizant.EMS.entity.Admin;
 import com.cognizant.EMS.entity.Employee;
 import com.cognizant.EMS.service.AdminService;
 import com.cognizant.EMS.service.EmployeeService;
@@ -61,7 +68,6 @@ public class EmployeeController {
   @GetMapping
   public ResponseEntity<List<Employee>> getAllEmployees() {
     List<Employee> employees = employeeService.getAllEmployees();
-    log.info("Successfully fetched all the employee details");
     return ResponseEntity.ok(employees);
   }
 
@@ -69,7 +75,6 @@ public class EmployeeController {
   public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long id) throws ResourceNotFoundException {
     Employee employee = employeeService.getEmployee(id);
     if (employee != null) {
-      log.info("Successfully fetched");
       return ResponseEntity.ok(employee);
 
     } else {
@@ -81,7 +86,6 @@ public class EmployeeController {
   @PostMapping
   public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
     Employee createdEmployee = employeeService.createEmployee(employee);
-    log.info("Successfully created");
     return ResponseEntity.status(HttpStatus.CREATED).body(createdEmployee);
   }
 
@@ -91,7 +95,6 @@ public class EmployeeController {
     Employee employee = employeeService.updateEmployee(id, updatedEmployee);
 
     if (employee != null) {
-      log.info("Successfully updated the employee data");
       return ResponseEntity.ok(employee);
     } else {
       throw new ResourceNotFoundException("There is employee data in this id");
@@ -102,7 +105,6 @@ public class EmployeeController {
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteEmployee(@PathVariable("id") Long id) {
     employeeService.deleteEmployee(id);
-    log.info("Successfully deleted the data");
     return ResponseEntity.noContent().build();
   }
 
@@ -120,17 +122,17 @@ public class EmployeeController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<Boolean> login(@RequestBody LoginForm login) {
+  public ResponseEntity<Employee> login(@RequestBody LoginForm login) {
     if (login.getEmailId() == null || login.getPassword() == null) {
-      return ResponseEntity.status(418).body(false);
+      return ResponseEntity.status(418).body(null);
     }
 
-    boolean success = employeeService.login(login.getEmailId(), login.getPassword());
-    if (success) {
-      return ResponseEntity.ok(true);
+    Employee emp = employeeService.login(login.getEmailId(), login.getPassword());
+    if (emp != null) {
+      return ResponseEntity.ok(emp);
     }
 
-    return ResponseEntity.status(418).body(false);
+    return ResponseEntity.status(418).body(null);
   }
 
 }
