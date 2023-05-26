@@ -1,3 +1,4 @@
+import { AppContext } from "@/components/ContextProvider";
 import { empLogin } from "@/lib/api";
 import { loginSchema, parseZodErrors } from "@/lib/validations";
 import {
@@ -8,7 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useMutation } from "@tanstack/react-query";
 import { Button, TextInput, Toggle, ToggleItem } from "@tremor/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +17,10 @@ const SUCCESS_MSG = "Logged in successfully!";
 const ERROR_MSG = "Invalid credentials!";
 
 function Home() {
+  const { setUser } = useContext(AppContext);
+
   const [isAdmin, setIsAdmin] = useState(true);
+
   const [inputs, setInputs] = useState({
     emailId: "",
     password: "",
@@ -58,7 +62,8 @@ function Home() {
     onError: () => {
       toast.error(ERROR_MSG);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      setUser(data);
       toast.success(SUCCESS_MSG);
       navigate("employee");
     },

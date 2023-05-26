@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import AppContextProvider from "./components/ContextProvider";
 import "./index.css";
 import Employee from "./pages/Employee";
 
@@ -14,18 +15,20 @@ const queryClient = new QueryClient();
 
 const Root = () => {
   return (
-    <>
+    <div>
       <QueryClientProvider client={queryClient}>
         <Toaster
           position="top-center"
           reverseOrder={false}
           toastOptions={{ duration: 1500 }}
         />
-        <Outlet />
+        <AppContextProvider>
+          <Outlet />
+        </AppContextProvider>
         <ReactQueryDevtools initialIsOpen={false} />
         <TailwindIndicator />
       </QueryClientProvider>
-    </>
+    </div>
   );
 };
 

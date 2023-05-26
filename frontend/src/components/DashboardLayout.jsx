@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 function Dashboard({ children }) {
   return (
-    <main className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col">
       {/* <div className="h-2 w-[100px] animate-pulse rounded-md bg-gray-200" /> */}
       <header className="flex items-center justify-between gap-12 border-b-2 px-5 py-2">
         <div className="flex items-center gap-1">
@@ -25,8 +25,8 @@ function Dashboard({ children }) {
           />
         </Link>
       </header>
-      <div className="flex w-full flex-1 flex-col p-5">{children}</div>
-    </main>
+      <main className="flex w-full flex-1 flex-col p-5">{children}</main>
+    </div>
   );
 }
 
