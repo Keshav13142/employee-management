@@ -28,6 +28,10 @@ public class AbsencesService {
     return absencesRepository.findAll();
   }
 
+  public List<Absences> getAbsencesByEmpId(Long id) {
+    return absencesRepository.findByEmpId(id);
+  }
+
   public Optional<Absences> getAbsencesById(long id) {
     return absencesRepository.findById(id);
   }

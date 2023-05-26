@@ -2,8 +2,19 @@ package com.cognizant.EMS.entity;
 
 import java.util.Date;
 
-import javax.persistence.*;
-import lombok.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "absences")
@@ -16,13 +27,13 @@ public class Absences {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Column(name = "fromdate", nullable = false)
-  private Date FromDate;
+  @Column(name = "from_date", nullable = false)
+  private Date fromDate;
   @Transient
   private boolean hasFromDate = false;
 
-  @Column(name = "todate", nullable = false)
-  private Date ToDate;
+  @Column(name = "to_date", nullable = false)
+  private Date toDate;
   @Transient
   private boolean hasToDate = false;
 
@@ -35,32 +46,36 @@ public class Absences {
   private boolean hasreason = false;
 
   @OneToOne
-  @JoinColumn(name = "empid", nullable = false)
+  @JoinColumn(name = "emp_id", nullable = false)
   private Employee emp;
   @Transient
   private boolean hasempid = false;
 
   @Override
   public String toString() {
-    return "absences [FromDate=" + FromDate + ", ToDate=" + ToDate + ", reason=" + reason + ", empid=" + emp
+    return "absences [FromDate=" + this.fromDate + ", ToDate=" + toDate + ", reason=" + reason + ", empid=" + emp
         + "]";
   }
 
   public Date getFromDate() {
-    return FromDate;
+    return fromDate;
   }
 
   public void setFromDate(Date fromDate) {
-    FromDate = fromDate;
+    this.fromDate = fromDate;
     this.hasFromDate = true;
   }
 
+  public void setId(Long id) {
+    this.id = id;
+  }
+
   public Date getToDate() {
-    return ToDate;
+    return toDate;
   }
 
   public void setToDate(Date toDate) {
-    ToDate = toDate;
+    this.toDate = toDate;
     this.hasToDate = true;
   }
 
@@ -85,8 +100,8 @@ public class Absences {
 
   public Absences(Date fromDate, Date toDate, int count, String reason, Employee empid) {
     super();
-    FromDate = fromDate;
-    ToDate = toDate;
+    this.fromDate = fromDate;
+    this.toDate = toDate;
     this.count = count;
     this.reason = reason;
     this.emp = empid;

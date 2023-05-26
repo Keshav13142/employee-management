@@ -6,7 +6,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cognizant.EMS.Exception.ResourceNotFoundException;
 import com.cognizant.EMS.entity.Absences;
@@ -33,14 +41,15 @@ public class AbsencesController {
 
   //
   @GetMapping
-  public List<Absences> getAllAbsences() {
-    log.info("Successfully fetched all the  employee's absence detail's ");
-    return absencesService.getAllAbsences();
+  public List<Absences> getAllAbsences(@RequestParam(value = "empId") Optional<Long> id) {
+    if (!id.isPresent()) {
+      return absencesService.getAllAbsences();
+    }
+    return absencesService.getAbsencesByEmpId(id.get());
   }
 
   @GetMapping("/{id}")
   public Optional<Absences> getAbsencesById(@PathVariable Long id) throws ResourceNotFoundException {
-    log.info("Successfully fetched the employee absence detail's ");
     Optional<Absences> absences = absencesService.getAbsencesById(id);
 
     if (!absences.isPresent()) {
@@ -53,7 +62,6 @@ public class AbsencesController {
 
   @PostMapping("/{id}")
   public ResponseEntity<Object> applyLeave(@PathVariable("id") Long id, @RequestBody Absences absences) {
-    // try {
     Employee employee = employeeService.getEmployee(id);
     if (employee != null) {
       absences.setEmp(employee);
