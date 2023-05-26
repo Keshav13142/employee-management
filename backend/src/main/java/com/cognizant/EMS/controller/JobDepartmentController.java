@@ -32,25 +32,21 @@ public class JobDepartmentController {
 
   @GetMapping
   public List<JobDepartment> getAllJobDepartment() {
-    log.info("Successfully fetched the data of the departments");
     return jobDepartmentService.getAllJobDepartment();
   }
 
   @GetMapping("/{id}")
   public Optional<JobDepartment> getJobDepartmentById(@PathVariable Long id) {
-    log.info("Successfully fetched the department details of the department id");
     return jobDepartmentService.getJobDepartmentById(id);
   }
 
   @PostMapping
   public JobDepartment createJobDepartment(@RequestBody JobDepartment jobDepartment) {
-    log.info("Successfully created new data for department");
     return jobDepartmentService.createJobDepartment(jobDepartment);
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<Void> updateJobDepartment(@PathVariable Long id, @RequestBody JobDepartment dept) {
-    log.info("Successfully updated details of the department");
     jobDepartmentService.updateJobDepartment(id, dept.getDeptName());
     return ResponseEntity.ok().build();
 
@@ -60,7 +56,6 @@ public class JobDepartmentController {
   public boolean deleteJobDepartmentById(@PathVariable Long id) throws ResourceNotFoundException {
     Optional<JobDepartment> obj = jobDepartmentService.getJobDepartmentById(id);
     if (obj != null) {
-      log.info("Successfully deleted the department data ");
       return jobDepartmentService.deleteJobDepartment(id);
     } else {
       throw new ResourceNotFoundException("The department doesn't exist");

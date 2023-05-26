@@ -5,7 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cognizant.EMS.Exception.ResourceNotFoundException;
 import com.cognizant.EMS.entity.Admin;
@@ -29,7 +37,6 @@ public class AdminController {
   @GetMapping
   public ResponseEntity<List<Admin>> getAllAdmin() {
     List<Admin> admin = adminService.getAllAdmin();
-    log.info("Successfully fetched all the admin details");
     return ResponseEntity.ok(admin);
   }
 
@@ -37,7 +44,6 @@ public class AdminController {
   public ResponseEntity<Admin> getAdminById(@PathVariable("id") Long id) throws ResourceNotFoundException {
     Admin admin = adminService.getAdmin(id);
     if (admin != null) {
-      log.info("Successfully fetched");
       return ResponseEntity.ok(admin);
 
     } else {
@@ -49,7 +55,6 @@ public class AdminController {
   @PostMapping
   public ResponseEntity<Admin> createAdmin(@RequestBody Admin admin) {
     Admin createdAdmin = adminService.createAdmin(admin);
-    log.info("Successfully created");
     return ResponseEntity.status(HttpStatus.CREATED).body(createdAdmin);
   }
 
@@ -59,7 +64,6 @@ public class AdminController {
     Admin admin = adminService.updateAdmin(id, updatedAdmin);
 
     if (admin != null) {
-      log.info("Successfully updated the admin data");
       return ResponseEntity.ok(admin);
     } else {
       throw new ResourceNotFoundException("There is admin data in this id");
@@ -70,7 +74,6 @@ public class AdminController {
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteAdmin(@PathVariable("id") Long id) {
     adminService.deleteAdmin(id);
-    log.info("Successfully deleted the data");
     return ResponseEntity.noContent().build();
   }
 

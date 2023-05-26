@@ -5,7 +5,15 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cognizant.EMS.Exception.ResourceNotFoundException;
 import com.cognizant.EMS.entity.Roles;
@@ -24,19 +32,16 @@ public class RolesController {
 
   @GetMapping
   public List<Roles> getAllRoles() {
-    log.info("Successfully fetched the details of roles");
     return rolesService.getAllRoles();
   }
 
   @GetMapping("/{id}")
   public Optional<Roles> getRolesById(@PathVariable Long id) {
-    log.info("Successfully fetched the details of the role id");
     return rolesService.getRolesById(id);
   }
 
   @PostMapping
   public Roles createRoles(@RequestBody Roles roles) {
-    log.info("Successfully created the roles data");
     return rolesService.createRoles(roles);
   }
 
@@ -51,7 +56,6 @@ public class RolesController {
   public boolean deleteRolesById(@PathVariable Long id) throws ResourceNotFoundException {
     Optional<Roles> obj = rolesService.getRolesById(id);
     if (obj != null) {
-      log.info("Successfully updated the detail of roles");
       return rolesService.deleteRoles(id);
     } else {
       throw new ResourceNotFoundException("Role data doesn't exist");
