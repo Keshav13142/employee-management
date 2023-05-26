@@ -24,6 +24,11 @@ export const createEmp = async (empData) => {
   return data;
 };
 
+export const updateEmp = async ({ id, ...rest }) => {
+  const { data } = await client.put(`/employees/${id}`, rest);
+  return data;
+};
+
 export const deleteEmp = async (id) => {
   const { data } = await client.delete(`/employees/${id}`);
   return data;
@@ -51,5 +56,10 @@ export const createDept = async (deptName) => {
 
 export const createRole = async (role) => {
   const { data } = await client.post(`/role`, { role, salary: 100000 });
+  return data;
+};
+
+export const getAbsences = async (id) => {
+  const { data } = await client.get(`/absences?empId=${id}`);
   return data;
 };
