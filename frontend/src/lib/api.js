@@ -60,12 +60,17 @@ export const createRole = async (role) => {
 };
 
 export const getAbsences = async (id) => {
-  let { data } = await client.get(`/absences`);
+  let { data } = await client.get(`/absences?empId=${id}`);
   data = data?.map((item) => {
     item.fromDate = new Date(item?.fromDate);
     item.toDate = new Date(item?.toDate);
     return item;
   });
 
+  return data;
+};
+
+export const addAbsence = async ({ id, ...rest }) => {
+  const { data } = await client.post(`/absences/${id}`, rest);
   return data;
 };
