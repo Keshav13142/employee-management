@@ -181,6 +181,7 @@ const DeptAndRoles = () => {
     },
     onSuccess: () => {
       onSuccess("Created", "roleList");
+      queryClient.invalidateQueries("rolesList")
       setAddItem(initalValues);
     },
     onSettled: () => {
