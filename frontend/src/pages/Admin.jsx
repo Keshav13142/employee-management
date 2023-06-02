@@ -115,7 +115,7 @@ const AdminDashboard = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((item) => (
+          {data?.map((item) => (
             <TableRow key={item.firstName}>
               <TableCell>{item.firstName}</TableCell>
               <TableCell>
