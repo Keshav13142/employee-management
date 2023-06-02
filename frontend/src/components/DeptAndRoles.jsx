@@ -42,7 +42,12 @@ const EditableList = ({
     </div>
     <div className="rounded-md border-2 p-3 shadow-sm">
       <List>
-        {data?.map((item) => (
+      {data?.length === 0 ? (
+        <div className="m-5 mx-auto rounded-xl border-2 border-slate-300 p-5 shadow-sm max-w-fit">
+          <span>Nothing to show</span>
+        </div>
+      ) :
+        data.map((item) => (
           <ListItem key={item.id} className="text-base text-slate-800">
             {selected?.id === item.id ? (
               <form

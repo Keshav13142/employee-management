@@ -100,67 +100,73 @@ const AdminDashboard = () => {
         <span className="text-lg lg:text-2xl">Employee list</span>
         <AddEmp />
       </div>
-      <Table className="my-5 rounded-md border-2">
-        <TableHead>
-          <TableRow>
-            <TableHeaderCell>First Name</TableHeaderCell>
-            <TableHeaderCell>Last Name</TableHeaderCell>
-            <TableHeaderCell>Age</TableHeaderCell>
-            <TableHeaderCell>Email Id</TableHeaderCell>
-            <TableHeaderCell>Join Date</TableHeaderCell>
-            <TableHeaderCell>Department</TableHeaderCell>
-            <TableHeaderCell>Role</TableHeaderCell>
-            <TableHeaderCell>Mobile Number</TableHeaderCell>
-            <TableHeaderCell className="text-center">Actions</TableHeaderCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data?.map((item) => (
-            <TableRow key={item.firstName}>
-              <TableCell>{item.firstName}</TableCell>
-              <TableCell>
-                <Text>{item.lastName}</Text>
-              </TableCell>
-              <TableCell>
-                <Text>{item.age}</Text>
-              </TableCell>
-              <TableCell>
-                <Text>{item.emailId}</Text>
-              </TableCell>
-              <TableCell>
-                <Text>{item.joinDate}</Text>
-              </TableCell>
-              <TableCell>
-                <Badge color="cyan" icon={ArchiveBoxIcon}>
-                  {item.jobDepartment.deptName}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                <Badge color="emerald" icon={AcademicCapIcon}>
-                  {item.roles.role}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                <Text>{item.mobileNumber}</Text>
-              </TableCell>
-              <TableCell className="text-center">
-                <Icon
-                  icon={TrashIcon}
-                  color="red"
-                  className="cursor-pointer rounded-full transition-all duration-200 hover:scale-110 hover:bg-red-100 hover:shadow-lg"
-                  onClick={() => {
-                    setSeletedEmployee({
-                      name: item.firstName,
-                      id: item.id,
-                    });
-                    setOpen(true);
-                  }}
-                />
-              </TableCell>
+      {data?.length === 0 ? (
+        <div className="m-5 mx-auto rounded-xl border-2 border-slate-300 p-5 shadow-sm">
+          <span>There are no employee to show</span>
+        </div>
+      ) : (
+        <Table className="my-5 rounded-md border-2">
+          <TableHead>
+            <TableRow>
+              <TableHeaderCell>First Name</TableHeaderCell>
+              <TableHeaderCell>Last Name</TableHeaderCell>
+              <TableHeaderCell>Age</TableHeaderCell>
+              <TableHeaderCell>Email Id</TableHeaderCell>
+              <TableHeaderCell>Join Date</TableHeaderCell>
+              <TableHeaderCell>Department</TableHeaderCell>
+              <TableHeaderCell>Role</TableHeaderCell>
+              <TableHeaderCell>Mobile Number</TableHeaderCell>
+              <TableHeaderCell className="text-center">Actions</TableHeaderCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {data?.map((item) => (
+              <TableRow key={item.firstName}>
+                <TableCell>{item.firstName}</TableCell>
+                <TableCell>
+                  <Text>{item.lastName}</Text>
+                </TableCell>
+                <TableCell>
+                  <Text>{item.age}</Text>
+                </TableCell>
+                <TableCell>
+                  <Text>{item.emailId}</Text>
+                </TableCell>
+                <TableCell>
+                  <Text>{item.joinDate}</Text>
+                </TableCell>
+                <TableCell>
+                  <Badge color="cyan" icon={ArchiveBoxIcon}>
+                    {item.jobDepartment.deptName}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <Badge color="emerald" icon={AcademicCapIcon}>
+                    {item.roles.role}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <Text>{item.mobileNumber}</Text>
+                </TableCell>
+                <TableCell className="text-center">
+                  <Icon
+                    icon={TrashIcon}
+                    color="red"
+                    className="cursor-pointer rounded-full transition-all duration-200 hover:scale-110 hover:bg-red-100 hover:shadow-lg"
+                    onClick={() => {
+                      setSeletedEmployee({
+                        name: item.firstName,
+                        id: item.id,
+                      });
+                      setOpen(true);
+                    }}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
       <DeptAndRoles />
     </>
   );
