@@ -291,18 +291,24 @@ const Employee = () => {
               Apply
             </Button>
           </div>
-          <List className="flex h-full flex-1 flex-col gap-3">
-            {data?.map((item) => (
-              <ListItem
-                key={item.id}
-                className="flex min-h-fit items-start text-base text-slate-800"
-              >
-                <div className="flex items-center gap-2">
-                  <span>{humanFormat(item.fromDate)}</span>-
-                  <span>{humanFormat(item.toDate)}</span>
-                </div>
-              </ListItem>
-            ))}
+          <List className="flex flex-1 flex-col gap-3">
+            {data?.length === 0 ? (
+              <div className="m-5 mx-auto max-w-fit rounded-xl border-2 border-slate-300 p-5 shadow-sm">
+                <span>Nothing to show</span>
+              </div>
+            ) : (
+              data?.map((item) => (
+                <ListItem
+                  key={item.id}
+                  className="flex min-h-fit items-start text-base text-slate-800"
+                >
+                  <div className="flex items-center gap-2">
+                    <span>{humanFormat(item.fromDate)}</span>-
+                    <span>{humanFormat(item.toDate)}</span>
+                  </div>
+                </ListItem>
+              ))
+            )}
           </List>
         </div>
       </div>
