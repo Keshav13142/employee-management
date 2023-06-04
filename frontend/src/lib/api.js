@@ -74,3 +74,8 @@ export const addAbsence = async ({ id, ...rest }) => {
   const { data } = await client.post(`/absences/${id}`, rest);
   return data;
 };
+
+export const editEmp = async ({ id, ...rest }) => {
+  const { data } = await client.put(`/employees/${id}`, rest);
+  return data;
+};

@@ -42,7 +42,7 @@ const defaultErrors = {
   roles: null,
 };
 
-const SelectField = ({ label, error, onChange, data, value }) => (
+export const SelectField = ({ label, error, onChange, data, value }) => (
   <div className="flex w-[45%] flex-col">
     <span className="mb-1 text-sm text-slate-600">{label}</span>
     <Dropdown onValueChange={onChange} placeholder="Select..">
@@ -131,7 +131,6 @@ const AddEmployee = () => {
     {
       placeholder: "Type....",
       label: "Address",
-      className: "max-w-sm",
       name: "address",
     },
     {

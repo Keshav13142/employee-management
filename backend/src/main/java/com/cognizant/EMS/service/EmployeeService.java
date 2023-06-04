@@ -53,6 +53,16 @@ public class EmployeeService {
     employee.setAge(updatedEmployee.getAge());
     employee.setMobileNumber(updatedEmployee.getMobileNumber());
     employee.setAddress(updatedEmployee.getAddress());
+    employee.setEmailId(updatedEmployee.getEmailId());
+
+    String newPass = updatedEmployee.getPassword();
+
+    if (newPass != null) {
+      if (!newPass.trim().equals("")) {
+        String bcryptHashString = BCrypt.withDefaults().hashToString(12, updatedEmployee.getPassword().toCharArray());
+        employee.setPassword(bcryptHashString);
+      }
+    }
 
     return employeeRepository.save(employee);
   }
