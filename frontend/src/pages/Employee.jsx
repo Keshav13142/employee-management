@@ -233,9 +233,22 @@ const Employee = () => {
       </Dialog.Root>
       <div className="container mx-auto flex flex-col justify-between gap-5 md:flex-row">
         <div className="flex-1 rounded-md border border-slate-300 p-5">
-          <div className="mb-5 flex items-center gap-3 text-2xl">
-            <h1>Your Profile</h1>
-            <UserIcon className="max-w-[20px]" />
+          <div className="mb-5 flex items-center justify-between">
+            <div className="flex flex-1 items-center gap-3 text-2xl">
+              <h1>Your Profile</h1>
+              <UserIcon className="max-w-[20px]" />
+            </div>
+            <div className="flex items-center gap-2">
+              <Button size="xs" variant="secondary" color="gray">
+                Update password
+              </Button>
+              <Button size="xs" variant="secondary" color="gray">
+                Request certificate
+              </Button>
+              <Button size="xs" variant="secondary" color="gray">
+                Training slot
+              </Button>
+            </div>
           </div>
           <form className="flex flex-col gap-2" onSubmit={updateProfile}>
             {!user
