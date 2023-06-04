@@ -47,7 +47,7 @@ public class RolesController {
 
   @PutMapping("/{id}")
   public ResponseEntity<Void> updateRoleById(@PathVariable Long id, @RequestBody Roles role) {
-    rolesService.updateRoleById(id, role.getRole());
+    rolesService.updateRoleById(id, role.getRole(), role.getSalary());
     return ResponseEntity.ok().build();
 
   }
