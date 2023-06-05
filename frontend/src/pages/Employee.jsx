@@ -11,6 +11,9 @@ import {
 import * as Dialog from "@radix-ui/react-dialog";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
+  Accordion,
+  AccordionBody,
+  AccordionHeader,
   Button,
   DateRangePicker,
   List,
@@ -245,9 +248,6 @@ const Employee = () => {
               <Button size="xs" variant="secondary" color="gray">
                 Request certificate
               </Button>
-              <Button size="xs" variant="secondary" color="gray">
-                Training slot
-              </Button>
             </div>
           </div>
           <form className="flex flex-col gap-2" onSubmit={updateProfile}>
@@ -289,8 +289,8 @@ const Employee = () => {
           </form>
         </div>
         <div className="rounded-lg border-2 border-slate-200" />
-        <div className="flex-1 rounded-md border border-slate-300 p-5">
-          <div className="mb-5 flex items-center justify-between">
+        <Accordion className="h-fit flex-1 border border-slate-300">
+          <AccordionHeader className="flex items-center justify-between">
             <div className="flex flex-1 items-center gap-3 text-2xl">
               <h1>Your Absences</h1>
               <CalendarDaysIcon className="max-w-[20px]" />
@@ -303,27 +303,29 @@ const Employee = () => {
             >
               Apply
             </Button>
-          </div>
-          <List className="flex flex-1 flex-col gap-3">
-            {data?.length === 0 ? (
-              <div className="m-5 mx-auto max-w-fit rounded-xl border-2 border-slate-300 p-5 shadow-sm">
-                <span>Nothing to show</span>
-              </div>
-            ) : (
-              data?.map((item) => (
-                <ListItem
-                  key={item.id}
-                  className="flex min-h-fit items-start text-base text-slate-800"
-                >
-                  <div className="flex items-center gap-2">
-                    <span>{humanFormat(item.fromDate)}</span>-
-                    <span>{humanFormat(item.toDate)}</span>
-                  </div>
-                </ListItem>
-              ))
-            )}
-          </List>
-        </div>
+          </AccordionHeader>
+          <AccordionBody>
+            <List className="flex flex-1 flex-col gap-3">
+              {data?.length === 0 ? (
+                <div className="m-5 mx-auto max-w-fit rounded-xl border-2 border-slate-300 p-5 shadow-sm">
+                  <span>Nothing to show</span>
+                </div>
+              ) : (
+                data?.map((item) => (
+                  <ListItem
+                    key={item.id}
+                    className="flex min-h-fit items-start text-base text-slate-800"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span>{humanFormat(item.fromDate)}</span>-
+                      <span>{humanFormat(item.toDate)}</span>
+                    </div>
+                  </ListItem>
+                ))
+              )}
+            </List>
+          </AccordionBody>
+        </Accordion>
       </div>
     </>
   );
