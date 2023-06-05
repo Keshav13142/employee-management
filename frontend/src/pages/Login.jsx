@@ -136,7 +136,7 @@ function Home() {
             Login
           </Button>
           {!isAdmin && (
-            <span className="mt-3 self-center text-blue-500 hover:underline">
+            <span className="mt-3 cursor-pointer self-center text-blue-500 hover:underline">
               Forgot password?
             </span>
           )}
