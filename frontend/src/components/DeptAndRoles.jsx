@@ -14,105 +14,18 @@ import {
 } from "@heroicons/react/24/outline";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Button, Icon, List, ListItem, TextInput } from "@tremor/react";
+import {
+  Accordion,
+  AccordionBody,
+  AccordionHeader,
+  Button,
+  Icon,
+  List,
+  ListItem,
+  TextInput,
+} from "@tremor/react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-
-const EditableList = ({
-  title,
-  data,
-  selected,
-  setSelected,
-  field,
-  mutation,
-  onAdd,
-}) => (
-  <div className="flex flex-1 flex-col gap-3 rounded-md p-2">
-    <div className="flex items-center justify-between">
-      <span className="text-lg lg:text-xl">{title}</span>
-      <Button
-        icon={PlusIcon}
-        size="xs"
-        variant="secondary"
-        color="gray"
-        onClick={onAdd}
-      >
-        Add
-      </Button>
-    </div>
-    <div className="rounded-md border-2 p-3 shadow-sm">
-      <List>
-        {data?.length === 0 ? (
-          <div className="m-5 mx-auto max-w-fit rounded-xl border-2 border-slate-300 p-5 shadow-sm">
-            <span>Nothing to show</span>
-          </div>
-        ) : (
-          data?.map((item) => (
-            <ListItem key={item.id} className="text-base text-slate-800">
-              {selected?.id === item.id ? (
-                <form
-                  className="ml-1 flex w-full items-center justify-between"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (selected?.[field].trim() === "") {
-                      setSelected(null);
-                      return;
-                    }
-                    mutation.mutate(selected);
-                  }}
-                >
-                  <TextInput
-                    autoFocus
-                    value={selected?.[field]}
-                    className="max-w-sm"
-                    onChange={({ target: { value } }) => {
-                      setSelected((prev) => ({
-                        ...prev,
-                        [field]: value,
-                      }));
-                    }}
-                  />
-                  <div className="flex items-center gap-2">
-                    <Button
-                      icon={CheckCircleIcon}
-                      loading={mutation.isLoading}
-                      variant="secondary"
-                      color="green"
-                      type="submit"
-                    >
-                      Save
-                    </Button>
-                    <Icon
-                      unselectable="off"
-                      icon={XMarkIcon}
-                      color="red"
-                      className="cursor-pointer rounded-full bg-red-100 transition-all duration-200 hover:scale-110 hover:shadow-lg"
-                      onClick={() => {
-                        setSelected(null);
-                      }}
-                    />
-                  </div>
-                </form>
-              ) : (
-                <>
-                  <span>{item[field]}</span>
-                  <Icon
-                    icon={PencilIcon}
-                    color="gray"
-                    className="cursor-pointer rounded-full transition-all duration-200 hover:scale-110 hover:bg-slate-200 hover:shadow-lg"
-                    onClick={() => {
-                      setSelected(item);
-                    }}
-                  />
-                </>
-              )}
-            </ListItem>
-          ))
-        )}
-      </List>
-    </div>
-  </div>
-);
 
 const AddRole = ({ open, setOpen }) => {
   const [inputs, setInputs] = useState({
@@ -192,8 +105,6 @@ const AddRole = ({ open, setOpen }) => {
     </Dialog.Root>
   );
 };
-
-const AddDept = () => {};
 
 const DeptAndRoles = () => {
   const [selectedDept, setSelectedDept] = useState(null);
@@ -305,45 +216,114 @@ const DeptAndRoles = () => {
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
-      <EditableList
-        title="Departments"
-        data={deptList}
-        onAdd={() => {
-          setOpen(true);
-          setAddItem((prev) => ({ ...prev, name: "Department" }));
-        }}
-        selected={selectedDept || []}
-        setSelected={setSelectedDept}
-        field="deptName"
-        mutation={editDeptMutation}
-      />
-      {/* <EditableList
-        title="Roles"
-        data={roleList || []}
-        onAdd={() => {
-          setOpen(true);
-          setAddItem((prev) => ({ ...prev, name: "Role" }));
-        }}
-        selected={selectedRole}
-        setSelected={setSelectedRole}
-        field="role"
-        mutation={editRoleMutation}
-      /> */}
-      <div className="flex flex-1 flex-col gap-3 rounded-md p-2">
-        <div className="flex items-center justify-between">
-          <span className="text-lg lg:text-xl">Roles</span>
-          <AddRole open={roleOpen} setOpen={setRoleOpen} />
-          <Button
-            icon={PlusIcon}
-            size="xs"
-            variant="secondary"
-            color="gray"
-            onClick={setRoleOpen}
-          >
-            Add
-          </Button>
-        </div>
-        <div className="rounded-md border-2 p-3 shadow-sm">
+      <Accordion className="flex h-fit flex-1 flex-col gap-3 rounded-md p-2">
+        <AccordionHeader>
+          <div className="flex flex-1 items-center justify-between">
+            <span className="text-lg lg:text-xl">Departments</span>
+            <Button
+              icon={PlusIcon}
+              size="xs"
+              variant="secondary"
+              color="gray"
+              onClick={() => {
+                setOpen(true);
+                setAddItem((prev) => ({ ...prev, name: "Department" }));
+              }}
+            >
+              Add
+            </Button>
+          </div>
+        </AccordionHeader>
+        <AccordionBody className="rounded-md border-2 p-3 shadow-sm">
+          <List>
+            {deptList?.length === 0 ? (
+              <div className="m-5 mx-auto max-w-fit rounded-xl border-2 border-slate-300 p-5 shadow-sm">
+                <span>Nothing to show</span>
+              </div>
+            ) : (
+              deptList?.map((item) => (
+                <ListItem key={item.id} className="text-base text-slate-800">
+                  {(selectedDept || [])?.id === item.id ? (
+                    <form
+                      className="ml-1 flex w-full items-center justify-between"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        if (selected?.["deptName"].trim() === "") {
+                          setSelected(null);
+                          return;
+                        }
+                        editDeptMutation.mutate(selected);
+                      }}
+                    >
+                      <TextInput
+                        autoFocus
+                        value={selected?.[field]}
+                        className="max-w-sm"
+                        onChange={({ target: { value } }) => {
+                          setSelected((prev) => ({
+                            ...prev,
+                            ["deptName"]: value,
+                          }));
+                        }}
+                      />
+                      <div className="flex items-center gap-2">
+                        <Button
+                          icon={CheckCircleIcon}
+                          loading={editDeptMutation.isLoading}
+                          variant="secondary"
+                          color="green"
+                          type="submit"
+                        >
+                          Save
+                        </Button>
+                        <Icon
+                          unselectable="off"
+                          icon={XMarkIcon}
+                          color="red"
+                          className="cursor-pointer rounded-full bg-red-100 transition-all duration-200 hover:scale-110 hover:shadow-lg"
+                          onClick={() => {
+                            setSelectedDept(null);
+                          }}
+                        />
+                      </div>
+                    </form>
+                  ) : (
+                    <>
+                      <span>{item.deptName}</span>
+                      <Icon
+                        icon={PencilIcon}
+                        color="gray"
+                        className="cursor-pointer rounded-full transition-all duration-200 hover:scale-110 hover:bg-slate-200 hover:shadow-lg"
+                        onClick={() => {
+                          setSelected(item);
+                        }}
+                      />
+                    </>
+                  )}
+                </ListItem>
+              ))
+            )}
+          </List>
+        </AccordionBody>
+      </Accordion>
+      <div></div>
+      <Accordion className="flex h-fit flex-1 flex-col gap-3 rounded-md p-2">
+        <AccordionHeader>
+          <div className="flex flex-1 items-center justify-between">
+            <span className="text-lg lg:text-xl">Roles</span>
+            <AddRole open={roleOpen} setOpen={setRoleOpen} />
+            <Button
+              icon={PlusIcon}
+              size="xs"
+              variant="secondary"
+              color="gray"
+              onClick={setRoleOpen}
+            >
+              Add
+            </Button>
+          </div>
+        </AccordionHeader>
+        <AccordionBody className="rounded-md border-2 p-3 shadow-sm">
           <List>
             {roleList?.length === 0 ? (
               <div className="m-5 mx-auto max-w-fit rounded-xl border-2 border-slate-300 p-5 shadow-sm">
@@ -431,8 +411,8 @@ const DeptAndRoles = () => {
               ))
             )}
           </List>
-        </div>
-      </div>
+        </AccordionBody>
+      </Accordion>
     </div>
   );
 };
