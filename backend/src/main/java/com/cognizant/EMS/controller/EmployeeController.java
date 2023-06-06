@@ -15,6 +15,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity.BodyBuilder;
+import org.springframework.http.ResponseEntity.HeadersBuilder;
+import org.springframework.web.util.UriUtils;
 
 import com.cognizant.EMS.Exception.ResourceNotFoundException;
 import com.cognizant.EMS.entity.Employee;
@@ -114,11 +131,97 @@ public class EmployeeController {
     return ResponseEntity.ok().build();
   }
 
-  @PostMapping("/{id}/request-certificate")
-  public ResponseEntity<Void> requestCertificate(@PathVariable("id") Long id,
-      @RequestParam("certificateType") String certificateType) {
-    employeeService.requestCertificate(id, certificateType);
-    return ResponseEntity.ok().build();
+  @PostMapping("/{id}/update-password")
+  public ResponseEntity<Void> updatePassword(@PathVariable("id") Long id, @RequestBody LoginForm form) {
+    if (employeeService.updatePassword(id, form.getPassword())) {
+      return ResponseEntity.ok().build();
+    }
+    return ResponseEntity.status(400).build();
+  }
+
+  @GetMapping("/{id}/certificate")
+  public ResponseEntity<ByteArrayResource> generateCertificate(@PathVariable("id") Long employeeId) {
+    Employee employee = employeeService.getEmployee(employeeId);
+    if (employee == null) {
+      return ResponseEntity.notFound().build();
+    }
+    LocalDate currentDate = LocalDate.now();
+    LocalDate joinDate = LocalDate.parse(employee.getJoinDate());
+    long experience = ChronoUnit.YEARS.between(joinDate, currentDate);
+    String lastname = employee.getLastName();
+    String joindate = employee.getJoinDate();
+    long exp = experience;
+    String expvalue = String.valueOf(exp);
+    String certificateMessage = "This is to certify that Mr./Ms. ";// +employee.getLastName() + " has worked in our
+                                                                   // company from " +employee.getJoinDate();
+    String certificateMessage1 = " and has an experience of ";// + experience + " years in our organization. Till now
+                                                              // with our entire ";
+    String certificateMessage2 = "satisfaction. During his/her working period we found him/her a sincere, honest,";
+    String certificateMessage3 = "  hardworking, dedicated employee with a professional attitude and very good ";
+    String certificateMessage4 = " job knowledge. He/She is admirable in nature and character  is well.";
+    String templatePath = "/home/keshav/personal/EmployeeManagementSystem/backend/src/main/resources/template.pdf";
+    String fileName = "certificate_" + employee.getId() + ".pdf";
+    byte[] pdfBytes = generatePDF(certificateMessage, certificateMessage1, certificateMessage2, certificateMessage3,
+        certificateMessage4, lastname, joindate, expvalue, templatePath, fileName);
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_PDF);
+    headers.setContentDispositionFormData("attachment", UriUtils.encode(fileName, "UTF-8"));
+
+    ByteArrayResource resource = new ByteArrayResource(pdfBytes);
+
+    // sendCertificateByEmail(employee.getEmailId(), fileName);
+    BodyBuilder responce = ResponseEntity.status(200);
+    // responce.header("attachment", UriUtils.encode(fileName, "UTF-8"));
+    // responce.header("Content-Type", MediaType.APPLICATION_PDF.toString());
+    return responce.headers(headers).body(resource);
+  }
+
+  private byte[] generatePDF(String certificateMessage, String certificateMessage1, String certificateMessage2,
+      String certificateMessage3, String certificateMessage4, String lastname, String joindate, String expvalue,
+      String templatePath, String fileName) {
+
+    try (PDDocument document = PDDocument.load(new File(templatePath))) {
+      PDPage page = document.getPage(0);
+      // document.addPage(page);
+      // PDImageXObject pdImage =
+      // PDImageXObject.createFromFile("C:\\Users\\sriak\\OneDrive\\Desktop\\LuffyEMS.jpeg",
+      // document);
+      PDPageContentStream contentStream = new PDPageContentStream(document, page, PDPageContentStream.AppendMode.APPEND,
+          true, true);
+      /// contentStream.drawImage(pdImage, 10, 10);
+      contentStream.setFont(PDType1Font.TIMES_ROMAN, 25);
+      contentStream.beginText();
+      contentStream.newLineAtOffset(300, 500);
+      contentStream.showText(certificateMessage);
+      contentStream.setFont(PDType1Font.HELVETICA_BOLD, 25);
+      contentStream.showText(lastname);
+      contentStream.setFont(PDType1Font.TIMES_ROMAN, 25);
+      contentStream.showText(" has worked in our company from ");
+      contentStream.setFont(PDType1Font.HELVETICA_BOLD, 25);
+      contentStream.showText(joindate);
+      contentStream.setFont(PDType1Font.TIMES_ROMAN, 25);
+      contentStream.newLineAtOffset(-5, -50);
+      contentStream.showText(certificateMessage1);
+      contentStream.setFont(PDType1Font.HELVETICA_BOLD, 25);
+      contentStream.showText(expvalue);
+      contentStream.setFont(PDType1Font.TIMES_ROMAN, 25);
+      contentStream.showText(" years in our organization. Till now with our entire ");
+      contentStream.newLineAtOffset(-5, -50);
+      contentStream.showText(certificateMessage2);
+      contentStream.newLineAtOffset(-5, -50);
+      contentStream.showText(certificateMessage3);
+      contentStream.newLineAtOffset(-5, -50);
+      contentStream.showText(certificateMessage4);
+      contentStream.endText();
+      contentStream.close();
+
+      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+      document.save(outputStream);
+      return outputStream.toByteArray();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return new byte[0];
   }
 
   @PostMapping("/login")
