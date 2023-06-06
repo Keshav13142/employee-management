@@ -27,11 +27,12 @@ public class JobDepartmentService {
     return jobDepartmentRepository.save(jobDepartment);
   }
 
-  public void updateJobDepartment(Long id, String deptName) {
+  public JobDepartment updateJobDepartment(Long id, String deptName) {
     JobDepartment dept = jobDepartmentRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Employee not found"));
     dept.setDeptName(deptName);
     jobDepartmentRepository.save(dept);
+    return dept;
   }
 
   public boolean deleteJobDepartment(Long id) {
