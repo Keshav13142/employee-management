@@ -10,6 +10,9 @@ import com.cognizant.EMS.repository.EmployeeRepository;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class EmployeeService {
 
@@ -27,6 +30,18 @@ public class EmployeeService {
     employee.setTrainingSlot(10);
 
     return employeeRepository.save(employee);
+  }
+
+  public Boolean updatePassword(Long id, String password) {
+    Employee emp = employeeRepository.findById(id).orElse(null);
+    if (emp == null) {
+      return false;
+    }
+
+    String bcryptHashString = BCrypt.withDefaults().hashToString(12, password.toCharArray());
+    emp.setPassword(bcryptHashString);
+    employeeRepository.save(emp);
+    return true;
   }
 
   public Employee login(String email, String password) {

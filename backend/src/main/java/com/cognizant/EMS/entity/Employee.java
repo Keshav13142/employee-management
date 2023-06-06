@@ -43,7 +43,7 @@ public class Employee {
   private boolean hasAge = false;
 
   @Column(name = "mobile_number", unique = true, nullable = false)
-  private int mobileNumber;
+  private String mobileNumber;
   @JsonIgnore
   @Transient
   private boolean hasMobileNumber = false;
@@ -147,11 +147,11 @@ public class Employee {
     this.hasAge = true;
   }
 
-  public int getMobileNumber() {
+  public String getMobileNumber() {
     return mobileNumber;
   }
 
-  public void setMobileNumber(int mobileNumber) {
+  public void setMobileNumber(String mobileNumber) {
     this.mobileNumber = mobileNumber;
     this.hasMobileNumber = true;
   }
@@ -285,7 +285,7 @@ public class Employee {
    * @param trainingSlot
    * @param certificate
    */
-  public Employee(Long id, String firstName, String lastName, int age, int mobileNumber, String address,
+  public Employee(Long id, String firstName, String lastName, int age, String mobileNumber, String address,
       String emailId, String password, String joinDate, int totalLeaveCount, int trainingSlot, String certificate,
       JobDepartment jobid, Roles roleid, double salary) {
     super();
@@ -307,7 +307,7 @@ public class Employee {
   }
 
   public Employee(JobDepartment jobDepartment, Long id, String firstName, String lastName, int age,
-      int mobileNumber, String address, String emailId, String password, String joinDate, int totalLeaveCount,
+      String mobileNumber, String address, String emailId, String password, String joinDate, int totalLeaveCount,
       int trainingSlot, String certificate, JobDepartment deptId, Roles roleid) {
     super();
     this.jobid = jobDepartment;
