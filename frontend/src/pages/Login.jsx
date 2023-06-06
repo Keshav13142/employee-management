@@ -135,11 +135,6 @@ function Home() {
           <Button loading={mutation.isLoading} type="submit">
             Login
           </Button>
-          {!isAdmin && (
-            <span className="mt-3 cursor-pointer self-center text-blue-500 hover:underline">
-              Forgot password?
-            </span>
-          )}
         </form>
       </div>
     </main>
