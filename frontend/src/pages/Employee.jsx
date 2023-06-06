@@ -392,7 +392,7 @@ const Employee = () => {
                       placeholder={input.placeholder ?? ""}
                       icon={input.icon}
                       disabled={input.disabled}
-                      className="placeholder mt-1"
+                      className="mt-1"
                     />
                     <span className="mt-1 text-sm text-red-400">
                       {errors[input.name]}

@@ -167,7 +167,7 @@ const EditEmp = ({ emp, open, setOpen }) => {
                   placeholder={item.placeholder ?? ""}
                   icon={item.icon}
                   value={inputs ? inputs[item.name] : ""}
-                  className="placeholder mt-1"
+                  className="mt-1"
                 />
                 <span className="mt-1 text-sm text-red-400">
                   {errors[item.name]}

@@ -1,11 +1,6 @@
 {
-  "$schema": "https://json.schemastore.org/eslintrc",
   "root": true,
-  "extends": [
-    "eslint:recommended",
-    "plugin:prettier/recommended",
-    "plugin:tailwindcss/recommended"
-  ],
+  "extends": ["plugin:prettier/recommended", "plugin:tailwindcss/recommended"],
   "plugins": ["tailwindcss"],
   "parserOptions": {
     "ecmaVersion": 2021,
