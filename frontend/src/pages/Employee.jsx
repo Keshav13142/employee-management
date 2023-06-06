@@ -1,5 +1,5 @@
 import { AppContext } from "@/components/ContextProvider";
-import { addAbsence, getAbsences, updateEmp } from "@/lib/api";
+import { addAbsence, getAbsences, updateEmp, updatePassword } from "@/lib/api";
 import { newEmployeeSchema, parseZodErrors } from "@/lib/validations";
 import {
   CalendarDaysIcon,
@@ -106,12 +106,119 @@ const format = (date) => {
   }).format(date);
 };
 
+const UpdatePassword = ({ open, setOpen }) => {
+  const { user } = useContext(AppContext);
+  const [inputs, setInputs] = useState({
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [errors, setErrors] = useState({
+    password: null,
+    confirmPassword: null,
+  });
+
+  const onChange = ({ target: { name, value } }) => {
+    setInputs((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: null }));
+  };
+
+  const updatePassMutation = useMutation(updatePassword, {
+    onError: () => {
+      toast.error("Something went wrong!");
+    },
+    onSuccess: () => {
+      toast.success("Successfully updated password!");
+      setOpen(false);
+    },
+  });
+
+  return (
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-blackA9 data-[state=open]:animate-overlayShow" />
+        <Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none data-[state=open]:animate-contentShow">
+          <Dialog.Title className="m-0 text-[17px] font-medium text-mauve12">
+            Update your password
+          </Dialog.Title>
+          <form
+            className="mt-5 flex flex-col gap-5"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (inputs.password.trim().length < 6) {
+                setErrors((prev) => ({
+                  ...prev,
+                  password: "Min 6 characters",
+                }));
+                return;
+              }
+
+              if (inputs.password.trim() !== inputs.confirmPassword.trim()) {
+                setErrors((prev) => ({
+                  ...prev,
+                  confirmPassword: "Passwords don't match",
+                }));
+                return;
+              }
+
+              updatePassMutation.mutate({
+                id: user.id,
+                password: inputs.password,
+              });
+            }}
+          >
+            <div className="flex flex-col">
+              <TextInput
+                value={inputs.password}
+                placeholder="Password"
+                name="password"
+                onChange={onChange}
+                type="password"
+              />
+              <span className="text-sm text-red-500">{errors.password}</span>
+            </div>
+            <div className="flex flex-col">
+              <TextInput
+                value={inputs.confirmPassword}
+                placeholder="Confirm password"
+                name="confirmPassword"
+                onChange={onChange}
+                type="password"
+              />
+              <span className="text-sm text-red-500">
+                {errors.confirmPassword}
+              </span>
+            </div>
+            <Button
+              variant="secondary"
+              color="gray"
+              className="self-end"
+              loading={updatePassword.isLoading}
+            >
+              Update
+            </Button>
+          </form>
+          <Dialog.Close asChild>
+            <button
+              className="absolute right-[10px] top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full text-violet11 hover:bg-violet4 focus:shadow-[0_0_0_2px] focus:shadow-violet7 focus:outline-none"
+              aria-label="Close"
+            >
+              <XMarkIcon />
+            </button>
+          </Dialog.Close>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+};
+
 const Employee = () => {
   const { user, setUser } = useContext(AppContext);
   const [isFetchEnabled, setIsFetchEnabled] = useState(false);
   const [errors, setErrors] = useState(defaultErrors);
   const [inputs, setInputs] = useState(defaultInputs);
   const [open, setOpen] = useState(false);
+  const [passwordOpen, setPasswordOpen] = useState(false);
   const [dateRange, setDateRange] = useState([]);
 
   const { data, refetch } = useQuery(
@@ -190,9 +297,13 @@ const Employee = () => {
       toDate: format(dateRange[1]),
     });
   };
+  const openInNewTab = (url) => {
+    window.open(url, "_blank", "noreferrer");
+  };
 
   return (
     <>
+      <UpdatePassword open={passwordOpen} setOpen={setPasswordOpen} />
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 bg-blackA9 data-[state=open]:animate-overlayShow" />
@@ -236,10 +347,26 @@ const Employee = () => {
               <UserIcon className="max-w-[20px]" />
             </div>
             <div className="flex items-center gap-2">
-              <Button size="xs" variant="secondary" color="gray">
+              <Button
+                size="xs"
+                variant="secondary"
+                color="gray"
+                onClick={() => {
+                  setPasswordOpen(true);
+                }}
+              >
                 Update password
               </Button>
-              <Button size="xs" variant="secondary" color="gray">
+              <Button
+                size="xs"
+                variant="secondary"
+                color="gray"
+                onClick={() =>
+                  openInNewTab(
+                    `http://localhost:8080/employees/${user?.id}/certificate`
+                  )
+                }
+              >
                 Request certificate
               </Button>
             </div>

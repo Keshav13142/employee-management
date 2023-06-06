@@ -79,3 +79,10 @@ export const editEmp = async ({ id, ...rest }) => {
   const { data } = await client.put(`/employees/${id}`, rest);
   return data;
 };
+
+export const updatePassword = async ({ id, password }) => {
+  const { data } = await client.post(`/employees/${id}/update-password`, {
+    password,
+  });
+  return data;
+};
