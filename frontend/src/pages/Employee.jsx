@@ -416,14 +416,15 @@ const Employee = () => {
               <h1>Your Absences</h1>
               <CalendarDaysIcon className="max-w-[20px]" />
             </div>
-            <Button
+            <div
+              className="cursor-pointer rounded-md border-2 border-slate-300 px-3 py-2 text-sm text-slate-800"
               onClick={setOpen}
               variant="secondary"
               color="gray"
               size="xs"
             >
               Apply
-            </Button>
+            </div>
           </AccordionHeader>
           <AccordionBody>
             <List className="flex flex-1 flex-col gap-3">
