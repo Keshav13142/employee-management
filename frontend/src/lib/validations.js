@@ -19,9 +19,8 @@ export const newEmployeeSchema = z.object({
     .string({ required_error: "Invalid address" })
     .min(1, { message: "Invalid address" }),
   mobileNumber: z
-    .number({
+    .string({
       required_error: "Invalid number",
-      invalid_type_error: "Invalid number",
     })
     .min(1, { message: "Invalid number" }),
   joinDate: z

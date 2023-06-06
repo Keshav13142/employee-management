@@ -126,7 +126,6 @@ const AddEmployee = () => {
       placeholder: "6942069420",
       label: "Mobile Number",
       name: "mobileNumber",
-      type: "number",
     },
     {
       placeholder: "Type....",
