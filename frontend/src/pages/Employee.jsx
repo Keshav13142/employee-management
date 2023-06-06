@@ -72,12 +72,6 @@ const inputFieldData = [
     name: "totalLeaveCount",
     disabled: true,
   },
-  {
-    label: "Training slots",
-    type: "number",
-    name: "trainingSlot",
-    disabled: true,
-  },
 ];
 
 const defaultErrors = {
